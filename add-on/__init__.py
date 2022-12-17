@@ -14,7 +14,7 @@ code_menu_items['undefined'] = []
 
 mesh_codes.append(('areaLight', 'Area light', ''))
 code_menu_items['areaLight'] = []
-code_menu_items['areaLight'] = ['total', 'extra']
+code_menu_items['areaLight'] = ['moduleHook', 'extra']
 
 
 class ObjectCosmosisObjectProperties(bpy.types.Operator):
@@ -23,8 +23,11 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
     bl_label = 'Cosmosis Object Properties'
     bl_options = {'REGISTER', 'UNDO'}
 
-    total: bpy.props.IntProperty(name="Steps", default=2, min=1, max=100)
+    # --- Optional menu items section --- #
+    moduleHook: bpy.props.StringProperty(name="[Module hook]")
     extra: bpy.props.IntProperty(name="Test", default=2, min=1, max=100)
+    # --- Optional menu items section end --- #
+
     obj_type: bpy.props.EnumProperty(
         name='Type',
         items=mesh_codes
@@ -45,19 +48,22 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
 
     def draw(self, context):
         layout = self.layout
+        layout.use_property_split = True
         # Always dray obj_type by default.
         layout.prop(self, 'obj_type')
 
-        # Only draw menu items relevant to the selected type.
         active_type = self.obj_type
         menu_items = code_menu_items[active_type]
+        if len(menu_items) > 0:
+            layout.label(text='Preferences')
+
+        # Only draw menu items relevant to the selected type.
         for menu_item in menu_items:
             if menu_item == 'obj_type':
                 # Disallow drawing obj_type a second time.
                 continue
             # Draw the menu item.
             layout.prop(self, menu_item)
-
 
 def menu_func(self, context):
     self.layout.operator(ObjectCosmosisObjectProperties.bl_idname)
