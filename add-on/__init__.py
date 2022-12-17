@@ -18,12 +18,16 @@ allowed_external_keys = [
     'type', 'moduleHook', 'gfxqLight'
 ]
 
+# --- Mesh type definitions --- #
+
 mesh_code_types.append(('undefined', 'Not set', ''))
 code_menu_items['undefined'] = []
 
 mesh_code_types.append(('areaLight', 'Area light', ''))
 code_menu_items['areaLight'] = ['moduleHook', 'gfxqLight']
 
+
+# --- Add-on object --- #
 
 class ObjectCosmosisObjectProperties(bpy.types.Operator):
     """Cosmosis Object Properties"""
@@ -70,8 +74,10 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
                 try:
                     # Filthy hack, but could not find a cleaner way of doing
                     # this.
-                    expression = 'self.' + key + \
-                                 ' = context.object["' + key + '"]'
+                    expression = 'if context.object["' + key + '"]: ' + \
+                                 'self.' + key + \
+                                 ' = context.object["' + key + '"] \n' + \
+                                 'else: self.' + key + ' = ""'
                     exec(expression)
                 except KeyError:
                     pass
@@ -79,8 +85,8 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
         # Set object properties to the user-chosen type
         if self.type == 'undefined' and 'type' in context.object:
             del context.object['type']
-        else:
-            for key in allowed_external_keys:
+        elif self.type:
+            for key in [ 'type' ] + code_menu_items[self.type]:
                 try:
                     # Filthy hack, but could not find a cleaner way of doing
                     # this.
@@ -154,7 +160,14 @@ def register():
                                              space_type='EMPTY')
         kmi = km.keymap_items.new(ObjectCosmosisObjectProperties.bl_idname,
                                   'INSERT', 'PRESS', ctrl=False, shift=False)
+
+        # Note: anything that does not have a default value defined here will
+        # inherit the value of whatever previous object you had selected. This
+        # old value will then actively be injected into the new object if it
+        # does not have that value already defined.
         kmi.properties.type = 'undefined'
+        kmi.properties.moduleHook = ''
+        kmi.properties.gfxqLight = 'auto'
         addon_keymaps.append((km, kmi))
 
 
