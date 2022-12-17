@@ -2,10 +2,10 @@
 
 ## Usage
 
-**Note**: This plugin targets Comosis 0.73 and up. Lower version will not work
-with this plugin.
+**Note**: This add-on targets Cosmosis 0.74 and up. Lower versions will not
+work with this add-on.
 
-This plugin eliminates the need to learn Cosmosis mesh codes. Simply click the
+This add-on eliminates the need to learn Cosmosis mesh codes. Simply click the
 mesh you want to configure, press `Insert` (or search for Cosmosis Object
 Properties), and select the item you want:
 

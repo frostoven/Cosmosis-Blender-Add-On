@@ -112,6 +112,9 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
     )
 
     csmDevHelper: bpy.props.EnumProperty(
+        # Note: we use string instead of bool here because Blender does not
+        # appear to support storing bools in object properties. This also keeps
+        # it consistent with how a user would manually maintain mesh codes.
         name='Dev helpers',
         description='Optional; if enabled, the game engine will draw hints ' +
                     'about the nature of the object, such as light ray ' +
@@ -159,7 +162,7 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
         if self.csmType == 'csmUndefined' and 'csmType' in context.object:
             del context.object['csmType']
         elif self.csmType:
-            for key in all_menu_items:
+            for key in all_menu_items: # noqa
                 # TODO: continue from here - unsure how to store bool
                 try:
                     # Filthy hack, but could not find a cleaner way of doing
