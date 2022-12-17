@@ -14,7 +14,7 @@ code_menu_items['undefined'] = []
 
 mesh_codes.append(('areaLight', 'Area light', ''))
 code_menu_items['areaLight'] = []
-code_menu_items['areaLight'] = ['moduleHook', 'extra']
+code_menu_items['areaLight'] = ['moduleHook', 'gfxqLight']
 
 
 class ObjectCosmosisObjectProperties(bpy.types.Operator):
@@ -24,8 +24,27 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     # --- Optional menu items section --- #
-    moduleHook: bpy.props.StringProperty(name="[Module hook]")
-    extra: bpy.props.IntProperty(name="Test", default=2, min=1, max=100)
+
+    # int example: bpy.props.IntProperty(name="", default=2, min=1, max=100)
+
+    moduleHook: bpy.props.StringProperty(
+        name="[Module hook]",
+        description="Optional; examples: cockpitLights | externalLights"
+    )
+
+    gfxqLight: bpy.props.EnumProperty(
+        name="[Lighting quality]",
+        description="Used to prevent the light from rendering on certain GFX quality settings",
+        items=(
+            ('auto', 'Engine decides', ''),
+            ('low', 'Only render if low quality', ''),
+            ('low,medium', 'Only render if medium or lower quality', ''),
+            ('medium', 'Only render if medium quality', ''),
+            ('medium,high', 'Only render if medium or higher quality', ''),
+            ('high', 'Only render if high quality', ''),
+        )
+    )
+
     # --- Optional menu items section end --- #
 
     obj_type: bpy.props.EnumProperty(
