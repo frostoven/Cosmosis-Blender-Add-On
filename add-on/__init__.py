@@ -67,11 +67,10 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
         if not self.has_initialized:
             self.has_initialized = True
             for key in allowed_external_keys:
-                internal_key = key
                 try:
                     # Filthy hack, but could not find a cleaner way of doing
                     # this.
-                    expression = 'self.' + internal_key + \
+                    expression = 'self.' + key + \
                                  ' = context.object["' + key + '"]'
                     exec(expression)
                 except KeyError:
@@ -81,7 +80,16 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
         if self.type == 'undefined' and 'type' in context.object:
             del context.object['type']
         else:
-            context.object['type'] = self.type
+            for key in allowed_external_keys:
+                try:
+                    # Filthy hack, but could not find a cleaner way of doing
+                    # this.
+                    expression = 'if self.' + key + ' != "": ' + \
+                                 'context.object["' + key + '"]' + \
+                                 ' = self.' + key
+                    exec(expression)
+                except KeyError:
+                    pass
 
         return {'FINISHED'}
 
