@@ -15,16 +15,16 @@ code_menu_items = {}
 
 # Used to load mesh properties into the plugin.
 allowed_external_keys = [
-    'type', 'moduleHook', 'gfxqLight'
+    'csmType', 'csmModuleHook', 'csmGfxqLight'
 ]
 
 # --- Mesh type definitions --- #
 
-mesh_code_types.append(('undefined', 'Not set', ''))
-code_menu_items['undefined'] = []
+mesh_code_types.append(('csmUndefined', 'Not set', ''))
+code_menu_items['csmUndefined'] = []
 
-mesh_code_types.append(('areaLight', 'Area light', ''))
-code_menu_items['areaLight'] = ['moduleHook', 'gfxqLight']
+mesh_code_types.append(('csmAreaLight', 'Area light', ''))
+code_menu_items['csmAreaLight'] = ['csmModuleHook', 'csmGfxqLight']
 
 
 # --- Add-on object --- #
@@ -40,12 +40,12 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
 
     # int example: bpy.props.IntProperty(name="", default=2, min=1, max=100)
 
-    moduleHook: bpy.props.StringProperty(
+    csmModuleHook: bpy.props.StringProperty(
         name="[Module hook]",
         description="Optional; examples: cockpitLights | externalLights"
     )
 
-    gfxqLight: bpy.props.EnumProperty(
+    csmGfxqLight: bpy.props.EnumProperty(
         name="[Lighting quality]",
         description="Used to prevent the light from rendering on certain GFX "
                     "quality settings",
@@ -61,8 +61,8 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
 
     # --- Optional menu items section end --- #
 
-    type: bpy.props.EnumProperty(
-        name='Type',
+    csmType: bpy.props.EnumProperty(
+        name='Mesh type',
         items=mesh_code_types
     )
 
@@ -83,10 +83,10 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
                     pass
 
         # Set object properties to the user-chosen type
-        if self.type == 'undefined' and 'type' in context.object:
-            del context.object['type']
-        elif self.type:
-            for key in [ 'type' ] + code_menu_items[self.type]:
+        if self.csmType == 'csmUndefined' and 'csmType' in context.object:
+            del context.object['csmType']
+        elif self.csmType:
+            for key in ['csmType'] + code_menu_items[self.csmType]:
                 try:
                     # Filthy hack, but could not find a cleaner way of doing
                     # this.
@@ -103,16 +103,16 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
         layout = self.layout
         layout.use_property_split = True
         # Always dray type by default.
-        layout.prop(self, 'type')
+        layout.prop(self, 'csmType')
 
-        active_type = self.type
+        active_type = self.csmType
         menu_items = code_menu_items[active_type]
         if len(menu_items) > 0:
             layout.label(text='Preferences')
 
         # Only draw menu items relevant to the selected type.
         for menu_item in menu_items:
-            if menu_item == 'type':
+            if menu_item == 'csmType':
                 # Disallow drawing type a second time.
                 continue
             # Draw the menu item.
@@ -165,9 +165,9 @@ def register():
         # inherit the value of whatever previous object you had selected. This
         # old value will then actively be injected into the new object if it
         # does not have that value already defined.
-        kmi.properties.type = 'undefined'
-        kmi.properties.moduleHook = ''
-        kmi.properties.gfxqLight = 'auto'
+        kmi.properties.csmType = 'csmUndefined'
+        kmi.properties.csmModuleHook = ''
+        kmi.properties.csmGfxqLight = 'auto'
         addon_keymaps.append((km, kmi))
 
 
