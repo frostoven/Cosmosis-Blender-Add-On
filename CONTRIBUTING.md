@@ -1,8 +1,10 @@
 ## General
 
 We don't have many rules here. Just ensure you have a proper IDE setup, and
-ensure you follow PEP 8 rules (any good IDE will warn you if PEP 8 rules are
-not being followed).
+that you at least try you follow PEP 8 rules (any good IDE will warn you if
+PEP 8 rules are not being followed). If following these rules hurt
+maintainability or functionality, ignore the warning when you're absolutely
+sure.
 
 ## Basic IDE auto-completion
 _Note: the below instructions are for IntelliJ, though they may help you figure
