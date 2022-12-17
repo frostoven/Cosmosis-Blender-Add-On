@@ -18,10 +18,27 @@ allowed_external_keys = [
     'csmType', 'csmModuleHook', 'csmGfxqLight'
 ]
 
-# --- Mesh type definitions --- #
+# --- Mesh definitions and in-application manual --- #
 
-mesh_code_types.append(('csmUndefined', 'Not set', ''))
+# Structure:
+# code_menu_items['value__mesh_code'] = ['key__menu_item', 'key__menu_item']
+# mesh_code_types.append(('game_engine_type', 'Friendly text', 'tooltip'))
+
 code_menu_items['csmUndefined'] = []
+mesh_code_types.append(('csmUndefined', 'Not set', """
+Please choose one of the dropdown items to define how to game engine should deal with this component.
+"""[1:-1])) # noqa
+
+#
+
+code_menu_items['areaLight'] = ['csmModuleHook', 'csmGfxqLight']
+mesh_code_types.append(('areaLight', 'Area light', """
+Creates a surface that emits light uniformly across a rectangular face.
+
+You'll want to adjust csmModuleHook if you want this hooked up to the game's powergrid and light switches.
+
+ - "I SAW THE FACE OF GOD, AND IT WAS SQUARE"
+"""[1:-1])) # noqa
 
 mesh_code_types.append(('csmAreaLight', 'Area light', ''))
 code_menu_items['csmAreaLight'] = ['csmModuleHook', 'csmGfxqLight']
