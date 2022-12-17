@@ -2,8 +2,16 @@ import bpy
 
 bl_info = {
     "name": "CosmosisDev",
+    "description": "Spaceship configuration add-on. To activate, click an "
+                   "object and press Insert.",
+    "author": "Frostoven contributors",
+    "version": (0, 74, 0, 100, 1, 0, 0),
     "blender": (2, 80, 0),
-    "category": "Object",
+    "location": "Object > Cosmosis Object Properties",
+    "support": "OFFICIAL",
+    "doc_url": "https://github.com/frostoven/Cosmosis-Blender-Add-On",
+    "tracker_url": "https://github.com/frostoven/Cosmosis-Blender-Add-On/issues", # noqa
+    "category": "Game Engine",
 }
 
 # This is the dropdown that contains all mesh types.
