@@ -6,14 +6,22 @@ bl_info = {
     "category": "Object",
 }
 
-mesh_codes = []
+# This is the dropdown that contains all mesh types.
+mesh_code_types = []
+
+# All menu items are disabled by default. This informs the menu builder
+# which items should be visible for the given mesh code type.
 code_menu_items = {}
 
-mesh_codes.append(('undefined', 'Please select...', ''))
+# Used to load mesh properties into the plugin.
+allowed_external_keys = [
+    'type', 'moduleHook', 'gfxqLight'
+]
+
+mesh_code_types.append(('undefined', 'Not set', ''))
 code_menu_items['undefined'] = []
 
-mesh_codes.append(('areaLight', 'Area light', ''))
-code_menu_items['areaLight'] = []
+mesh_code_types.append(('areaLight', 'Area light', ''))
 code_menu_items['areaLight'] = ['moduleHook', 'gfxqLight']
 
 
@@ -22,6 +30,7 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
     bl_idname = 'object.cosmosis_object_properties'
     bl_label = 'Cosmosis Object Properties'
     bl_options = {'REGISTER', 'UNDO'}
+    has_initialized = False
 
     # --- Optional menu items section --- #
 
@@ -34,7 +43,8 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
 
     gfxqLight: bpy.props.EnumProperty(
         name="[Lighting quality]",
-        description="Used to prevent the light from rendering on certain GFX quality settings",
+        description="Used to prevent the light from rendering on certain GFX "
+                    "quality settings",
         items=(
             ('auto', 'Engine decides', ''),
             ('low', 'Only render if low quality', ''),
@@ -47,44 +57,73 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
 
     # --- Optional menu items section end --- #
 
-    obj_type: bpy.props.EnumProperty(
+    type: bpy.props.EnumProperty(
         name='Type',
-        items=mesh_codes
+        items=mesh_code_types
     )
 
     def execute(self, context):
-        scene = context.scene
-        cursor = scene.cursor.location
-        obj = context.active_object
+        # On first run, read all object properties and save them here.
+        if not self.has_initialized:
+            self.has_initialized = True
+            for key in allowed_external_keys:
+                internal_key = key
+                try:
+                    # Filthy hack, but could not find a cleaner way of doing
+                    # this.
+                    expression = 'self.' + internal_key + \
+                                 ' = context.object["' + key + '"]'
+                    exec(expression)
+                except KeyError:
+                    pass
 
         # Set object properties to the user-chosen type
-        if self.obj_type == 'undefined' and "type" in context.object:
+        if self.type == 'undefined' and 'type' in context.object:
             del context.object['type']
         else:
-            context.object['type'] = self.obj_type
+            context.object['type'] = self.type
 
         return {'FINISHED'}
 
-    def draw(self, context):
+    def draw(self, _context):
         layout = self.layout
         layout.use_property_split = True
-        # Always dray obj_type by default.
-        layout.prop(self, 'obj_type')
+        # Always dray type by default.
+        layout.prop(self, 'type')
 
-        active_type = self.obj_type
+        active_type = self.type
         menu_items = code_menu_items[active_type]
         if len(menu_items) > 0:
             layout.label(text='Preferences')
 
         # Only draw menu items relevant to the selected type.
         for menu_item in menu_items:
-            if menu_item == 'obj_type':
-                # Disallow drawing obj_type a second time.
+            if menu_item == 'type':
+                # Disallow drawing type a second time.
                 continue
             # Draw the menu item.
             layout.prop(self, menu_item)
 
-def menu_func(self, context):
+    @staticmethod
+    def alert_info(message):
+        bpy.context.window_manager.popup_menu(
+            ObjectCosmosisObjectProperties.draw_modal,
+            title=message, icon="INFO"
+        )
+
+    @staticmethod
+    def alert_error(message):
+        bpy.context.window_manager.popup_menu(
+            ObjectCosmosisObjectProperties.draw_modal,
+            title=message, icon="ERROR"
+        )
+
+    @staticmethod
+    def draw_modal(self, context):
+        pass
+
+
+def menu_func(self, _context):
     self.layout.operator(ObjectCosmosisObjectProperties.bl_idname)
 
 
@@ -107,7 +146,7 @@ def register():
                                              space_type='EMPTY')
         kmi = km.keymap_items.new(ObjectCosmosisObjectProperties.bl_idname,
                                   'INSERT', 'PRESS', ctrl=False, shift=False)
-        kmi.properties.obj_type = 'undefined'
+        kmi.properties.type = 'undefined'
         addon_keymaps.append((km, kmi))
 
 
