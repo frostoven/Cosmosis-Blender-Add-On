@@ -40,8 +40,20 @@ You'll want to adjust csmModuleHook if you want this hooked up to the game's pow
  - "I SAW THE FACE OF GOD, AND IT WAS SQUARE"
 """[1:-1])) # noqa
 
-mesh_code_types.append(('csmAreaLight', 'Area light', ''))
-code_menu_items['csmAreaLight'] = ['csmModuleHook', 'csmGfxqLight']
+#
+
+code_menu_items['fakeLight'] = ['csmModuleHook']
+mesh_code_types.append(('fakeLight', 'Fake light', """
+Use this with emissive textures. An emissive texture will have its emissive intensity cycled between 0 (off) and 1 (on) when being switched off and on.
+
+Fake lights are meant to be used alongside real lights. For example, if you create an area light, switching it on and off won't affect any emissive materials of the light fixture meshes you have next to the real light. Your light fixture meshes should be tagged as fake lights; when toggled, light-handler modules will toggle its emissive intensity.
+
+You'll want to adjust csmModuleHook if you want this hooked up to the game's power grid and light switches.
+
+Important note: if in Blender you use a single emissive texture on multiple light fixtures, the game engine will assume all emissive textures are part of the same light circuit and power them all off even if you target just one. This is a performance optimisation that drastically reduces the amount of work involved with changing fake light power state. If you would like to avoid this optimisation for certain lights, clone their material in Blender and give them a different name.
+"""[1:-1])) # noqa
+
+#
 
 
 # --- Add-on object --- #
