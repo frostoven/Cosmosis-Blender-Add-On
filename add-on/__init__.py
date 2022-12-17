@@ -37,7 +37,8 @@ You may choose one of the dropdown items to specify that the game engine should 
 #
 
 required_menu_items['areaLight'] = []
-optional_menu_items['areaLight'] = ['csmModuleHook', 'csmGfxqLight']
+optional_menu_items['areaLight'] = ['csmModuleHook', 'csmGfxqLight',
+                                    'csmDevHelper']
 mesh_code_types.append(('areaLight', 'Area light', """
 Creates a surface that emits light uniformly across a rectangular face.
 
@@ -63,7 +64,8 @@ Important note: if in Blender you use a single emissive texture on multiple ligh
 #
 
 required_menu_items['spotlight'] = []
-optional_menu_items['spotlight'] = ['csmModuleHook', 'csmGfxqLight']
+optional_menu_items['spotlight'] = ['csmModuleHook', 'csmGfxqLight',
+                                    'csmDevHelper']
 mesh_code_types.append(('spotlight', 'Spotlight', """
 Create a focussed light cone.
 
@@ -90,16 +92,15 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
 
     # int example: bpy.props.IntProperty(name="", default=2, min=1, max=100)
 
-    csmModuleHookEnum = bpy.props.StringProperty(
-        name="Module hook",
-        description="Optional; examples: cockpitLights | externalLights"
+    csmModuleHook: bpy.props.StringProperty(
+        name='Module hook',
+        description='Optional; examples: cockpitLights | externalLights'
     )
-    csmModuleHook: csmModuleHookEnum
 
     csmGfxqLight: bpy.props.EnumProperty(
-        name="Lighting quality",
-        description="Used to prevent the light from rendering on certain GFX "
-                    "quality settings",
+        name='Lighting quality',
+        description='Used to prevent the light from rendering on certain GFX '
+                    'quality settings',
         items=(
             ('auto', 'Engine decides', ''),
             ('low', 'Only render if low quality', ''),
@@ -107,6 +108,17 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
             ('medium', 'Only render if medium quality', ''),
             ('medium,high', 'Only render if medium or higher quality', ''),
             ('high', 'Only render if high quality', ''),
+        )
+    )
+
+    csmDevHelper: bpy.props.EnumProperty(
+        name='Dev helpers',
+        description='Optional; if enabled, the game engine will draw hints ' +
+                    'about the nature of the object, such as light ray ' +
+                    'direction and cone size.',
+        items=(
+            ('true', 'Enable', ''),
+            ('false', 'Disable', ''),
         )
     )
 
@@ -148,12 +160,14 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
             del context.object['csmType']
         elif self.csmType:
             for key in all_menu_items:
+                # TODO: continue from here - unsure how to store bool
                 try:
                     # Filthy hack, but could not find a cleaner way of doing
                     # this.
-                    expression = 'if self.' + key + ' != "": ' + \
-                                 'context.object["' + key + '"]' + \
-                                 ' = self.' + key
+                    expression = \
+                        'if self.' + key + ' != "": ' + \
+                        'context.object["' + key + '"]' + \
+                        ' = self.' + key
                     exec(expression)
                 except KeyError:
                     pass
@@ -240,6 +254,7 @@ def register():
         kmi.properties.csmType = 'csmUndefined'
         kmi.properties.csmModuleHook = ''
         kmi.properties.csmGfxqLight = 'auto'
+        kmi.properties.csmDevHelper = 'false'
         addon_keymaps.append((km, kmi))
 
 
