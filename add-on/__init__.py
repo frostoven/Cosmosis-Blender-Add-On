@@ -5,7 +5,7 @@ bl_info = {
     "description": "Spaceship configuration add-on. To activate, click an "
                    "object and press Insert.",
     "author": "Frostoven contributors",
-    "version": (0, 74, 0, 100, 1, 1, 0),
+    "version": (0, 74, 0, 100, 1, 2, 0),
     "blender": (2, 80, 0),
     "location": "Object > Cosmosis Object Properties",
     "support": "OFFICIAL",
@@ -92,6 +92,18 @@ mesh_code_types.append(('hudProgressBlip', '[HUD] Progress blip', """
 Used to indicate some sort of percentage. Useful for example with a ship throttle.
 
 The exact use-case here is for blips fading in from dim to bright as they're activated.
+"""[1:-1]))  # noqa
+
+# -------------------------------------------------- #
+
+required_menu_items['hudProgressAnimation'] = []
+optional_menu_items['hudProgressAnimation'] = []
+mesh_code_types.append(('hudProgressAnimation', '[HUD] Progress animation', """
+Used to indicate some sort of percentage. Useful for example with a ship throttle.
+
+For this item, the game engine will play the animation from 0-100 as in indication of completion.
+
+This item has no configurable options.
 """[1:-1]))  # noqa
 
 # -------------------------------------------------- #
