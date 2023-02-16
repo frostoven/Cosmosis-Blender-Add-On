@@ -5,7 +5,7 @@ bl_info = {
     "description": "Spaceship configuration add-on. To activate, click an "
                    "object and press Insert.",
     "author": "Frostoven contributors",
-    "version": (0, 74, 0, 100, 1, 0, 0),
+    "version": (0, 74, 0, 100, 1, 1, 0),
     "blender": (2, 80, 0),
     "location": "Object > Cosmosis Object Properties",
     "support": "OFFICIAL",
@@ -30,19 +30,21 @@ allowed_external_keys = [
     'csmType', 'csmModuleHook', 'csmGfxqLight'
 ]
 
+# -------------------------------------------------- #
 # --- Mesh definitions and in-application manual --- #
+# -------------------------------------------------- #
 
 # Structure:
 # menu_items['value__mesh_code'] = ['key__menu_item', 'key__menu_item']
 # mesh_code_types.append(('game_engine_type', 'Friendly text', 'tooltip'))
 
 required_menu_items['csmUndefined'] = []
-optional_menu_items['areaLight'] = []
+optional_menu_items['csmUndefined'] = []
 mesh_code_types.append(('csmUndefined', 'Not set', """
 You may choose one of the dropdown items to specify that the game engine should deal with this component specially.
 """[1:-1]))  # noqa
 
-#
+# -------------------------------------------------- #
 
 required_menu_items['areaLight'] = []
 optional_menu_items['areaLight'] = ['csmModuleHook', 'csmGfxqLight',
@@ -55,7 +57,7 @@ You'll want to adjust csmModuleHook if you want this hooked up to the game's pow
  - "I SAW THE FACE OF GOD, AND IT WAS SQUARE"
 """[1:-1]))  # noqa
 
-#
+# -------------------------------------------------- #
 
 required_menu_items['fakeLight'] = ['csmModuleHook']
 optional_menu_items['fakeLight'] = []
@@ -69,7 +71,7 @@ You'll want to adjust csmModuleHook if you want this hooked up to the game's pow
 Important note: if in Blender you use a single emissive texture on multiple light fixtures, the game engine will assume all emissive textures are part of the same light circuit and power them all off even if you target just one. This is a performance optimisation that drastically reduces the amount of work involved with changing fake light power state. If you would like to avoid this optimisation for certain lights, clone their material in Blender and give them a different name.
 """[1:-1]))  # noqa
 
-#
+# -------------------------------------------------- #
 
 required_menu_items['spotlight'] = []
 optional_menu_items['spotlight'] = ['csmModuleHook', 'csmGfxqLight',
@@ -79,6 +81,21 @@ Create a focussed light cone.
 
 You'll want to adjust csmModuleHook if you want this hooked up to the game's power grid and light switches.
 """[1:-1]))  # noqa
+
+# -------------------------------------------------- #
+# --- HUD-specific definitions --------------------- #
+# -------------------------------------------------- #
+
+required_menu_items['hudProgressBlip'] = ['csmStepPosition']
+optional_menu_items['hudProgressBlip'] = []
+mesh_code_types.append(('hudProgressBlip', '[HUD] Progress blip', """
+Used to indicate some sort of percentage. Useful for example with a ship throttle.
+
+The exact use-case here is for blips fading in from dim to bright as they're activated.
+"""[1:-1]))  # noqa
+
+# -------------------------------------------------- #
+# -------------------------------------------------- #
 
 # --- PostSetup --- #
 
@@ -131,6 +148,11 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
             ('true', 'Enable', ''),
             ('false', 'Disable', ''),
         )
+    )
+
+    csmStepPosition: bpy.props.FloatProperty(
+        name='Step position',
+        description='1-10'
     )
 
     # --- Optional menu items section end --- #
