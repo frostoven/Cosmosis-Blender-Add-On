@@ -1,10 +1,35 @@
 ## General
-
 We don't have many rules here. Just ensure you have a proper IDE setup, and
 that you at least try you follow PEP 8 rules (any good IDE will warn you if
 PEP 8 rules are not being followed). If following these rules hurt
 maintainability or functionality, ignore the warning when you're absolutely
 sure.
+
+## Adding a new entry
+
+### Adding a new section
+Go to `Mesh definitions and in-application manual`.
+Have a look at how the other items are done, for example `areaLight`.
+You will notice that each section has the following:
+* required parameters 
+* optional parameters
+* an in-app description
+
+The easy part starts with just duplicating on of the existing entries and
+modifying the parameters and description.
+
+### Addin your own parameters
+If you need custom parameters, go to the `Optional menu items section` in the
+`ObjectCosmosisObjectProperties` class. There, you can create new parameters,
+which you may them include in the code you created above.
+
+### Testing your changes
+Place `__init.py` inside a directory called `CosmosisDev`, and zip it. You may
+then install via Blender.
+
+### Submitting changes
+Feel free to raise a PR with your changes if it's relevant to the official
+Cosmosis project. Don't worry about version bumps, we'll handle that for you.
 
 ## Basic IDE auto-completion
 _Note: the below instructions are for IntelliJ, though they may help you figure

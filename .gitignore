@@ -1,2 +1,7 @@
 .idea
 venv
+__pycache__
+
+# Packaging this is easier if done within the project; this excludes packaging.
+add-on/CosmosisDev
+add-on/CosmosisDev.zip

@@ -16,7 +16,7 @@ The plugin's own version is place behind the version of Cosmosis it targets.
 
 ## Example
 
-Support our plugin is version `1.0.0` and target Cosmosis `0.74.0-beta.1`. The
+Suppose our plugin is version `1.0.0` and target Cosmosis `0.74.0-beta.1`. The
 Blender version should look like this:
 ```
 bl_info.version: (0, 74, 0, 100, 1, 0, 0)
