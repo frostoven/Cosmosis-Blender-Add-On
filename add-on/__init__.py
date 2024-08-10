@@ -73,6 +73,16 @@ Important note: if in Blender you use a single emissive texture on multiple ligh
 
 # -------------------------------------------------- #
 
+required_menu_items['pointLight'] = []
+optional_menu_items['pointLight'] = ['csmModuleHook', 'csmGfxqLight', 'csmDevHelper']
+mesh_code_types.append(('pointLight', 'Point light', """
+Creates an omnidirectional light source.
+
+You'll want to adjust csmModuleHook if you want this hooked up to the game's power grid and light switches.
+"""[1:-1]))  # noqa
+
+# -------------------------------------------------- #
+
 required_menu_items['spotlight'] = []
 optional_menu_items['spotlight'] = ['csmModuleHook', 'csmGfxqLight',
                                     'csmDevHelper']
