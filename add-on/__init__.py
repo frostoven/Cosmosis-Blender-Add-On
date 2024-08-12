@@ -27,7 +27,7 @@ optional_menu_items = {}
 
 # Used to load mesh properties into the plugin.
 allowed_external_keys = [
-    'csmType', 'csmModuleHook', 'csmGfxqLight'
+    'csmType', 'csmSubsystem', 'csmGfxqLight'
 ]
 
 # -------------------------------------------------- #
@@ -47,26 +47,26 @@ You may choose one of the dropdown items to specify that the game engine should 
 # -------------------------------------------------- #
 
 required_menu_items['areaLight'] = []
-optional_menu_items['areaLight'] = ['csmModuleHook', 'csmGfxqLight',
+optional_menu_items['areaLight'] = ['csmSubsystem', 'csmGfxqLight',
                                     'csmDevHelper']
 mesh_code_types.append(('areaLight', 'Area light', """
 Creates a surface that emits light uniformly across a rectangular face.
 
-You'll want to adjust csmModuleHook if you want this hooked up to the game's powergrid and light switches.
+You'll want to adjust csmSubsystem if you want this hooked up to the game's powergrid and light switches.
 
  - "I SAW THE FACE OF GOD, AND IT WAS SQUARE"
 """[1:-1]))  # noqa
 
 # -------------------------------------------------- #
 
-required_menu_items['fakeLight'] = ['csmModuleHook']
+required_menu_items['fakeLight'] = ['csmSubsystem']
 optional_menu_items['fakeLight'] = []
 mesh_code_types.append(('fakeLight', 'Fake light', """
 Use this with emissive textures. An emissive texture will have its emissive intensity cycled between 0 (off) and 1 (on) when being switched off and on.
 
 Fake lights are meant to be used alongside real lights. For example, if you create an area light, switching it on and off won't affect any emissive materials of the light fixture meshes you have next to the real light. Your light fixture meshes should be tagged as fake lights; when toggled, light-handler modules will toggle its emissive intensity.
 
-You'll want to adjust csmModuleHook if you want this hooked up to the game's power grid and light switches.
+You'll want to adjust csmSubsystem if you want this hooked up to the game's power grid and light switches.
 
 Important note: if in Blender you use a single emissive texture on multiple light fixtures, the game engine will assume all emissive textures are part of the same light circuit and power them all off even if you target just one. This is a performance optimisation that drastically reduces the amount of work involved with changing fake light power state. If you would like to avoid this optimisation for certain lights, clone their material in Blender and give them a different name.
 """[1:-1]))  # noqa
@@ -74,22 +74,22 @@ Important note: if in Blender you use a single emissive texture on multiple ligh
 # -------------------------------------------------- #
 
 required_menu_items['pointLight'] = []
-optional_menu_items['pointLight'] = ['csmModuleHook', 'csmGfxqLight', 'csmDevHelper']
+optional_menu_items['pointLight'] = ['csmSubsystem', 'csmGfxqLight', 'csmDevHelper']
 mesh_code_types.append(('pointLight', 'Point light', """
 Creates an omnidirectional light source.
 
-You'll want to adjust csmModuleHook if you want this hooked up to the game's power grid and light switches.
+You'll want to adjust csmSubsystem if you want this hooked up to the game's power grid and light switches.
 """[1:-1]))  # noqa
 
 # -------------------------------------------------- #
 
 required_menu_items['spotlight'] = []
-optional_menu_items['spotlight'] = ['csmModuleHook', 'csmGfxqLight',
+optional_menu_items['spotlight'] = ['csmSubsystem', 'csmGfxqLight',
                                     'csmDevHelper']
 mesh_code_types.append(('spotlight', 'Spotlight', """
 Create a focussed light cone.
 
-You'll want to adjust csmModuleHook if you want this hooked up to the game's power grid and light switches.
+You'll want to adjust csmSubsystem if you want this hooked up to the game's power grid and light switches.
 """[1:-1]))  # noqa
 
 # -------------------------------------------------- #
@@ -139,8 +139,8 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
 
     # int example: bpy.props.IntProperty(name="", default=2, min=1, max=100)
 
-    csmModuleHook: bpy.props.StringProperty(
-        name='Module hook',
+    csmSubsystem: bpy.props.StringProperty(
+        name='Subsystem',
         description='Optional; examples: cockpitLights | externalLights'
     )
 
@@ -185,7 +185,7 @@ class ObjectCosmosisObjectProperties(bpy.types.Operator):
     )
 
     def execute(self, context):
-        # self.csmModuleHookEnum.name = 'rewritten'
+        # self.csmSubsystemEnum.name = 'rewritten'
 
         # On first run, read all object properties and save them here.
         if not self.has_initialized:
@@ -307,7 +307,7 @@ def register():
         # old value will then actively be injected into the new object if it
         # does not have that value already defined.
         kmi.properties.csmType = 'csmUndefined'
-        kmi.properties.csmModuleHook = ''
+        kmi.properties.csmSubsystem = ''
         kmi.properties.csmGfxqLight = 'auto'
         kmi.properties.csmDevHelper = 'false'
         addon_keymaps.append((km, kmi))
