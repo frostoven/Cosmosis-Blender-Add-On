@@ -1,8 +1,7 @@
 import bpy
 
-class CSMUndefined(bpy.types.Operator):
-    """CSM Undefined"""
-    bl_idname = 'object.csm_undefined'
+class CSMUnknown(bpy.types.Operator):
+    bl_idname = 'object.csm_unknown'
     bl_label = 'Not Set'
     bl_options = {'REGISTER', 'UNDO'}
 

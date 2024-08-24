@@ -1,5 +1,5 @@
 import bpy
-from .mesh_types import csm_undefined, parent_menu, clear_mesh_type
+from .mesh_types import csm_unknown, parent_menu, clear_mesh_type
 
 bl_info = {
     "name": "CosmosisDev",
@@ -11,13 +11,13 @@ bl_info = {
     "location": "Object > Cosmosis Object Properties",
     "support": "OFFICIAL",
     "doc_url": "https://github.com/frostoven/Cosmosis-Blender-Add-On",
-    "tracker_url": "https://github.com/frostoven/Cosmosis-Blender-Add-On/issues", # noqa
+    "tracker_url": "https://github.com/frostoven/Cosmosis-Blender-Add-On/issues",
     "category": "Game Engine",
 }
 
 classes = [
     parent_menu.CosmosisParentMenu,
-    csm_undefined.CSMUndefined,
+    csm_unknown.CSMUnknown,
     clear_mesh_type.ClearMeshType,
 ]
 
