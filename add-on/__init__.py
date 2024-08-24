@@ -1,5 +1,5 @@
 import bpy
-from .mesh_types import csm_unknown, parent_menu, clear_mesh_type
+from .mesh_types import csm_unknown, area_light, parent_menu, clear_mesh_type
 
 bl_info = {
     "name": "CosmosisDev",
@@ -18,6 +18,7 @@ bl_info = {
 classes = [
     parent_menu.CosmosisParentMenu,
     csm_unknown.CSMUnknown,
+    area_light.AreaLight,
     clear_mesh_type.ClearMeshType,
 ]
 

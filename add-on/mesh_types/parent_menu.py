@@ -23,6 +23,7 @@ class CosmosisParentMenu(bpy.types.Menu):
         else:
             # Show the main menu with options to select a mesh type
             layout.operator("object.csm_unknown", text="CSM Unknown")
+            layout.operator("object.area_light", text="Area Light")
             layout.operator("object.clear_mesh_type", text="Clear Type Info")
 
 
