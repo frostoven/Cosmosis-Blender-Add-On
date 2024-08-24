@@ -1,6 +1,11 @@
 import bpy
 
+
 class CSMUnknown(bpy.types.Operator):
+    """
+    Used as a fallback if the plugin version is too old or the modder made an
+    invalid manual edit to a mesh.
+    """
     bl_idname = 'object.csm_unknown'
     bl_label = 'Not Set'
     bl_options = {'REGISTER', 'UNDO'}
