@@ -1,4 +1,11 @@
 import bpy
+import re
+
+
+# Convert cameCase to snake_case.
+# https://stackoverflow.com/questions/1175208/elegant-python-function-to-convert-camelcase-to-snake-case
+def to_snake_case(str_name):
+    return re.sub(r'(?<!^)(?=[A-Z])', '_', str_name).lower()
 
 
 class CosmosisParentMenu(bpy.types.Menu):
@@ -12,19 +19,25 @@ class CosmosisParentMenu(bpy.types.Menu):
         # Check if a specific mesh type is selected
         selected_type = context.object.get("csmType", None)
         if selected_type:
+            # We store types as camelCase. Convert to a snake_case to follow Blender standards.
+            snake_name = to_snake_case(selected_type)
+
             # Show the specific menu for the selected mesh type
-            if selected_type == 'areaLight':
-                layout.operator("object.area_light", text="Area Light")
-            else:
-                layout.operator("object.csm_unknown", text="CSM Unknown")
+            menu_object = layout.operator(f'object.csm_{snake_name}')
+
+            # This can happen if the plugin is out of date, or if a modder did something weird.
+            if menu_object is None:
+                layout.label(
+                    text=f'Unknown mesh code type "{selected_type}"; is the plugin up to date?',
+                    icon='ERROR'
+                )
 
             # Add a button to clear the type information
-            layout.operator("object.clear_mesh_type", text="Clear Type Info")
+            layout.operator("object.csm_clear_mesh_type", text="Clear Type Info")
         else:
             # Show the main menu with options to select a mesh type
-            layout.operator("object.csm_unknown", text="CSM Unknown")
-            layout.operator("object.area_light", text="Area Light")
-            layout.operator("object.clear_mesh_type", text="Clear Type Info")
+            layout.operator("object.csm_area_light", text="Area Light1")
+            layout.operator("object.csm_clear_mesh_type", text="Clear Type Info")
 
 
 def menu_func(self, context):

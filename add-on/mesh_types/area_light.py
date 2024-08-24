@@ -5,7 +5,7 @@ class AreaLight(CosmosisMeshBase):
     """
     Signals to the game engine that the mesh should be treated as an area light.
     """
-    bl_idname = 'object.area_light'
+    bl_idname = 'object.csm_area_light'
     bl_label = 'Area Light'
     bl_description = (
         'Creates a surface that emits light uniformly across a rectangular face.\n\n'

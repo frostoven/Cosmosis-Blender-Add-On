@@ -5,7 +5,7 @@ class CosmosisMeshBase(bpy.types.Operator):
     """
     Base class for all Cosmosis mesh code classes.
     """
-    bl_idname = 'object.area_light'
+    bl_idname = 'object.csm_mesh_base'
     bl_label = '???'
     bl_description = (
         'Base class for all Cosmosis mesh code classes.'
