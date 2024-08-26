@@ -9,7 +9,7 @@ class AreaLight(CosmosisMeshBase):
     bl_label = 'Area Light'
     bl_description = (
         'Creates a surface that emits light uniformly across a rectangular face.\n\n'
-        'You\'ll want to adjust csmSubsystem if you want this hooked up to the game\'s power grid and light switches'
+        'You\'ll want to adjust csmDriver if you want this hooked up to the game\'s power grid and light switches'
     )
     bl_options = {'REGISTER', 'UNDO'}
 
@@ -17,7 +17,7 @@ class AreaLight(CosmosisMeshBase):
         # Note: execute is called for both keypress launches and menu launches,
         # whereas invoke is for menu-based launches only (apparently).
         context.object['csmType'] = 'areaLight'
-        self.load_or_set_default(context, 'csmSubsystem', self.csmSubsystem)
+        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmGfxqLight', self.csmGfxqLight)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
 
@@ -29,6 +29,6 @@ class AreaLight(CosmosisMeshBase):
 
     def draw(self, context):
         layout = self.layout
-        layout.prop(self, 'csmSubsystem')
+        layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmGfxqLight')
         layout.prop(self, 'csmDevHelper')

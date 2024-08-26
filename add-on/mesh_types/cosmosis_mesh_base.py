@@ -38,9 +38,9 @@ class CosmosisMeshBase(bpy.types.Operator):
 
     ### --- Common menu items --- ###
 
-    csmSubsystem: bpy.props.StringProperty(
-        name='Subsystem',
-        description='Optional; examples: cockpitLights | externalLights'
+    csmDriver: bpy.props.StringProperty(
+        name='Driver String',
+        description='Exposes this object to relevant ship modules. Examples: cockpitLights | externalLights'
     )
 
     ### --- Required overrides --- ###
@@ -73,8 +73,8 @@ class CosmosisMeshBase(bpy.types.Operator):
         """
 
         # Possible example if this was not written dynamically:
-        #  [if preexisting] self.csmSubsystem = context.object['csmSubsystem']
-        #  [if new]         context.object['csmSubsystem'] = self.csmSubsystem
+        #  [if preexisting] self.csmDriver = context.object['csmDriver']
+        #  [if new]         context.object['csmDriver'] = self.csmDriver
         #
         if key in context.object and not self.init_complete:
             setattr(self, key, context.object[key])

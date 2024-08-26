@@ -14,7 +14,7 @@ class FakeLight(CosmosisMeshBase):
             'switching it on and off won\'t affect any emissive materials of the light fixture meshes you have next to '
             'the real light. Your light fixture meshes should be tagged as fake lights; when toggled, light-handler '
             'modules will toggle its emissive intensity.\n\n' +
-            'You\'ll want to adjust csmSubsystem if you want this hooked up to the game\'s power grid and light '
+            'You\'ll want to adjust csmDriver if you want this hooked up to the game\'s power grid and light '
             'switches.\n\n'
             'Important note: if in Blender you use a single emissive material with multiple light fixtures, the game '
             'engine will assume all emissive textures are part of the same light circuit and power them all off even '
@@ -26,7 +26,7 @@ class FakeLight(CosmosisMeshBase):
         # Note: execute is called for both keypress launches and menu launches,
         # whereas invoke is for menu-based launches only (apparently).
         context.object['csmType'] = 'fakeLight'
-        self.load_or_set_default(context, 'csmSubsystem', self.csmSubsystem)
+        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
 
         # Prevents edits from being lost. This is a tad spaghetti though, need
         # to create a cleaner solution.
@@ -36,4 +36,4 @@ class FakeLight(CosmosisMeshBase):
 
     def draw(self, context):
         layout = self.layout
-        layout.prop(self, 'csmSubsystem')
+        layout.prop(self, 'csmDriver')
