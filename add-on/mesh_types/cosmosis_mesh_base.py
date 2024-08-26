@@ -104,3 +104,15 @@ class CosmosisMeshBase(bpy.types.Operator):
             ('false', 'Disable', ''),
         )
     )
+
+
+    ### --- Common UI Items --- ###
+
+    def draw_optional_items_heading(self):
+        self.layout.separator()
+        self.layout.label(text='Optional properties', icon='SNAP_EDGE')
+
+
+    def draw_required_items_heading(self):
+        self.layout.separator()
+        self.layout.label(text='Required properties', icon='SNAP_VERTEX')
