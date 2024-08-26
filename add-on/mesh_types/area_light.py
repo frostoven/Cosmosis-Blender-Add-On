@@ -29,6 +29,8 @@ class AreaLight(CosmosisMeshBase):
 
     def draw(self, context):
         layout = self.layout
+        layout.use_property_split = True
+
         layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmGfxqLight')
         layout.prop(self, 'csmDevHelper')
