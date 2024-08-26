@@ -9,7 +9,7 @@ class AreaLight(CosmosisMeshBase):
     bl_label = 'Area Light'
     bl_description = (
         'Creates a surface that emits light uniformly across a rectangular face.\n\n'
-        'You\'ll want to adjust csmSubsystem if you want this hooked up to the game\'s powergrid and light switches.'
+        'You\'ll want to adjust csmSubsystem if you want this hooked up to the game\'s power grid and light switches'
     )
     bl_options = {'REGISTER', 'UNDO'}
 

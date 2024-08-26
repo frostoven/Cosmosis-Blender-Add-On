@@ -7,6 +7,7 @@ class ClearMeshType(bpy.types.Operator):
     """
     bl_idname = 'object.csm_clear_mesh_type'
     bl_label = 'Clear Type Info'
+    bl_description = 'The "Clear Type Info" option is used to clear mesh code type info, and isn\'t itself a mesh code'
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
