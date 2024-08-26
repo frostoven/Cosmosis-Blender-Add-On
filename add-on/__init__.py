@@ -1,6 +1,6 @@
 import bpy
 from .enabled_menu_items import enabled_menu_items
-from .mesh_types import parent_menu, clear_mesh_type
+from .helper_menus import parent_menu, clear_mesh_type
 
 bl_info = {
     "name": "CosmosisDev",
