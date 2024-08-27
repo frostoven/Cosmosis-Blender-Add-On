@@ -40,7 +40,7 @@ class CosmosisMeshBase(bpy.types.Operator):
 
     csmDriver: bpy.props.StringProperty(
         name='Driver String',
-        description='Exposes this object to relevant ship modules. Examples: cockpitLights | externalLights'
+        description='Exposes this object to relevant ship modules. Examples: cockpitLights | externalLights | yourSwitchName'
     )
 
     ### --- Required overrides --- ###
@@ -105,13 +105,11 @@ class CosmosisMeshBase(bpy.types.Operator):
         )
     )
 
-
     ### --- Common UI Items --- ###
 
     def draw_optional_items_heading(self):
         self.layout.separator()
         self.layout.label(text='Optional properties', icon='SNAP_EDGE')
-
 
     def draw_required_items_heading(self):
         self.layout.separator()

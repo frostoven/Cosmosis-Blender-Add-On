@@ -3,11 +3,12 @@ from .cosmosis_mesh_base import CosmosisMeshBase
 
 class FakeLight(CosmosisMeshBase):
     """
-    Signals to the game engine that the mesh should be treated as an fake light.
+    Signals to the game engine that the mesh should be treated as a fake light.
     """
     bl_idname = 'object.csm_fake_light'
     bl_label = 'Fake Light'
     bl_description = (
+            'Indicates this is an emissive light source mesh (e.g. light bulb mesh aligned with a point light).\n\n'
             'Use this with emissive textures. An emissive texture will have its emissive intensity cycled between 0 '
             '(off) and 1 (on) when being switched off and on.\n\n'
             'Fake lights are meant to be used alongside real lights. For example, if you create an area light, '
