@@ -12,6 +12,7 @@ class PointLight(CosmosisMeshBase):
         'You\'ll want to adjust csmDriver if you want this hooked up to the game\'s power grid and light switches'
     )
     bl_options = {'REGISTER', 'UNDO'}
+    icon = 'LIGHT_POINT'
 
     def execute(self, context):
         # Note: execute is called for both keypress launches and menu launches,

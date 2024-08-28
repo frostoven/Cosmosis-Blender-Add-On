@@ -22,6 +22,7 @@ class FakeLight(CosmosisMeshBase):
             'if you target just one'
     )
     bl_options = {'REGISTER', 'UNDO'}
+    icon = "CUBE"
 
     def execute(self, context):
         # Note: execute is called for both keypress launches and menu launches,

@@ -14,6 +14,7 @@ class SeatCamera(CosmosisMeshBase):
         'You can use any mesh for this (such as a cage), but an actual camera object is recommended'
     )
     bl_options = {'REGISTER', 'UNDO'}
+    icon = 'CON_CAMERASOLVER'
 
     csmStartingCamera: bpy.props.BoolProperty(
         name="Starting Camera",
