@@ -43,7 +43,7 @@ class CosmosisParentMenu(bpy.types.Menu):
                 if menu_item == 'separator':
                     layout.separator()
                 else:
-                    layout.operator(menu_item.bl_idname)
+                    layout.operator(menu_item.bl_idname, icon=menu_item.icon)
 
 
 def menu_func(self, context):

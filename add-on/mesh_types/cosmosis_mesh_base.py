@@ -11,6 +11,7 @@ class CosmosisMeshBase(bpy.types.Operator):
         'Base class for all Cosmosis mesh code classes.'
     )
     bl_options = {'REGISTER', 'UNDO'}
+    icon = 'NONE'
 
     ### --- Attributes altered by derived classes --- ###
 
@@ -98,7 +99,7 @@ class CosmosisMeshBase(bpy.types.Operator):
 
     csmDevHelper: bpy.props.EnumProperty(
         name='Dev helpers',
-        description='Optional; if enabled, the game engine will draw hints about the nature of the object, such as light ray direction and cone size.',
+        description='Optional; if enabled, the game engine will draw hints about the nature of the object, such as light ray direction and cone size',
         items=(
             ('true', 'Enable', ''),
             ('false', 'Disable', ''),
