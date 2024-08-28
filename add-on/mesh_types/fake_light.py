@@ -8,8 +8,8 @@ class FakeLight(CosmosisMeshBase):
     bl_idname = 'object.csm_fake_light'
     bl_label = 'Fake Light'
     bl_description = (
-            'Indicates this is an emissive light source mesh (e.g. light bulb mesh aligned with a point light).\n\n'
-            'Use this with emissive textures. An emissive texture will have its emissive intensity cycled between 0 '
+            'Indicates that this is an emissive light source mesh (e.g. light bulb mesh accompanying a point light).\n\n'
+            'Use this with emissive materials. An emissive texture will have its emissive intensity cycled between 0 '
             '(off) and 1 (on) when being switched off and on.\n\n'
             'Fake lights are meant to be used alongside real lights. For example, if you create an area light, '
             'switching it on and off won\'t affect any emissive materials of the light fixture meshes you have next to '
@@ -17,7 +17,7 @@ class FakeLight(CosmosisMeshBase):
             'modules will toggle its emissive intensity.\n\n' +
             'You\'ll want to adjust csmDriver if you want this hooked up to the game\'s power grid and light '
             'switches.\n\n'
-            'Important note: if in Blender you use a single emissive material with multiple light fixtures, the game '
+            'Important note: If in Blender you use a single emissive material with multiple light fixtures, the game '
             'engine will assume all emissive textures are part of the same light circuit and power them all off even '
             'if you target just one'
     )
