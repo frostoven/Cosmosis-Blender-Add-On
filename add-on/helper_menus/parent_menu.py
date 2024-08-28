@@ -40,7 +40,10 @@ class CosmosisParentMenu(bpy.types.Menu):
         else:
             # Show all enable mesh code type menu items.
             for menu_item in enabled_menu_items:
-                layout.operator(menu_item.bl_idname)
+                if menu_item == 'separator':
+                    layout.separator()
+                else:
+                    layout.operator(menu_item.bl_idname)
 
 
 def menu_func(self, context):

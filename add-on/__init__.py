@@ -24,7 +24,9 @@ def register():
 
     # Register all enabled menu items.
     for menu_item in enabled_menu_items:
-        bpy.utils.register_class(menu_item)
+        # We skip strings; they're used special commands in the parent menu.
+        if not isinstance(menu_item, str):
+            bpy.utils.register_class(menu_item)
 
     # This menu allows clearing type information.
     bpy.utils.register_class(clear_mesh_type.ClearMeshType)
