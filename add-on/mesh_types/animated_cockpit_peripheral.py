@@ -2,18 +2,19 @@ import bpy
 from ..utils.get_animation_actions import get_animation_actions
 from .cosmosis_mesh_base import CosmosisMeshBase
 
-class HelmFlightStick(CosmosisMeshBase):
+
+class AnimatedCockpitPeripheral(CosmosisMeshBase):
     """
     Used to animation in-game flight sticks.
     """
-    bl_idname = 'object.csm_helm_flight_stick'
-    bl_label = 'Helm: Flight Stick'
+    bl_idname = 'object.csm_animated_cockpit_peripheral'
+    bl_label = 'Animated Cockpit Peripheral'
     bl_description = (
         'Used to animation in-game flight sticks.\n\n'
         'Informs the game engine that this mesh\'s animations follow the ship\'s pitch/yaw/roll values'
     )
     bl_options = {'REGISTER', 'UNDO'}
-    icon = 'PIVOT_BOUNDBOX'
+    icon = 'DRIVER'
 
     csmPitchAnimation: bpy.props.EnumProperty(
         name='Pitch Animation',
@@ -46,7 +47,7 @@ class HelmFlightStick(CosmosisMeshBase):
     def execute(self, context):
         # Note: execute is called for both keypress launches and menu launches,
         # whereas invoke is for menu-based launches only (apparently).
-        context.object['csmType'] = 'helmFlightStick'
+        context.object['csmType'] = 'animatedCockpitPeripheral'
         self.load_or_set_default(context, 'csmPitchAnimation', self.csmPitchAnimation)
         self.load_or_set_default(context, 'csmYawAnimation', self.csmYawAnimation)
         self.load_or_set_default(context, 'csmRollAnimation', self.csmRollAnimation)
