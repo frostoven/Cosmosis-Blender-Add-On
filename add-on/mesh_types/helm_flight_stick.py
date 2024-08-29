@@ -1,0 +1,66 @@
+import bpy
+from ..utils.get_animation_actions import get_animation_actions
+from .cosmosis_mesh_base import CosmosisMeshBase
+
+class HelmFlightStick(CosmosisMeshBase):
+    """
+    Used to animation in-game flight sticks.
+    """
+    bl_idname = 'object.csm_helm_flight_stick'
+    bl_label = 'Helm: Flight Stick'
+    bl_description = (
+        'Used to animation in-game flight sticks.\n\n'
+        'Informs the game engine that this mesh\'s animations follow the ship\'s pitch/yaw/roll values'
+    )
+    bl_options = {'REGISTER', 'UNDO'}
+    icon = 'PIVOT_BOUNDBOX'
+
+    csmAutoAnimate: bpy.props.BoolProperty(
+        name='Auto-Animate',
+        description='If true, the game engine will rotate this mesh about its origin instead of using keyframes. '
+                    'For better results, leave this disabled and use keyframes',
+        default=False,
+    )
+
+    csmPitchAnimation: bpy.props.EnumProperty(
+        name='Pitch Animation',
+        description='Select animation used to convey pitch',
+        items=get_animation_actions
+    )
+
+    def get_animation_types(self):
+        obj = bpy.context.active_object
+        if not obj or not obj.animation_data:
+            return []
+        return [f"Action: {action.name}" for action in bpy.data.actions if
+                action in obj.animation_data.nla_tracks[0].strips]
+
+    def update_animation_data(self, context):
+        self.report({'INFO'}, f"Selected Animation: {self.csmPitchAnimation}")
+
+    def execute(self, context):
+        # Note: execute is called for both keypress launches and menu launches,
+        # whereas invoke is for menu-based launches only (apparently).
+        context.object['csmType'] = 'helmFlightStick'
+        self.load_or_set_default(context, 'csmAutoAnimate', self.csmAutoAnimate)
+        self.load_or_set_default(context, 'csmPitchAnimation', self.csmPitchAnimation)
+        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
+        self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
+
+        # Prevents edits from being lost. This is a tad spaghetti though, need
+        # to create a cleaner solution.
+        self.init_complete = True
+
+        return {'FINISHED'}
+
+    def draw(self, context):
+        layout = self.layout
+        layout.use_property_split = True
+
+        self.draw_required_items_heading()
+        layout.prop(self, 'csmAutoAnimate')
+        layout.prop(self, 'csmPitchAnimation')
+
+        self.draw_optional_items_heading()
+        layout.prop(self, 'csmDriver')
+        layout.prop(self, 'csmDevHelper')

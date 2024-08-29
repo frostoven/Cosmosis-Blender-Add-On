@@ -1,8 +1,9 @@
 from .mesh_types import (
     # Lighting
     area_light, fake_light, point_light, spotlight,
-    # Other items
+    # Helm control and pilot items
     seat_camera,
+    helm_flight_stick,
 )
 
 enabled_menu_items = [
@@ -12,4 +13,5 @@ enabled_menu_items = [
     spotlight.Spotlight,
     'separator',
     seat_camera.SeatCamera,
+    helm_flight_stick.HelmFlightStick,
 ]
