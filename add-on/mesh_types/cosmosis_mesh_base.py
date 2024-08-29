@@ -85,7 +85,7 @@ class CosmosisMeshBase(bpy.types.Operator):
     ### --- Common menu items --- ###
 
     csmGfxqLight: bpy.props.EnumProperty(
-        name='Lighting quality',
+        name='Lighting Quality',
         description='Used to prevent the light from rendering on certain GFX quality settings',
         items=(
             ('auto', 'Engine decides', ''),
@@ -94,16 +94,17 @@ class CosmosisMeshBase(bpy.types.Operator):
             ('medium', 'Only render if medium quality', ''),
             ('medium,high', 'Only render if medium or higher quality', ''),
             ('high', 'Only render if high quality', ''),
-        )
+        ),
     )
 
     csmDevHelper: bpy.props.EnumProperty(
-        name='Dev helpers',
+        name='Dev Helpers',
         description='Optional; if enabled, the game engine will draw hints about the nature of the object, such as light ray direction and cone size',
         items=(
             ('true', 'Enable', ''),
             ('false', 'Disable', ''),
-        )
+        ),
+        default='false',
     )
 
     ### --- Common UI Items --- ###
