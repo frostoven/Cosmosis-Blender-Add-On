@@ -2,14 +2,14 @@ import bpy
 import uuid
 
 # Used to disable animation.
-unset_action = ('csmUndefined', 'Not Set', '"Not Set" disables animation', 'PANEL_CLOSE', 0)
+unset_action = ('csmUndefined', 'Not Set', '"Not Set" disables animation for this item', 'PANEL_CLOSE', 0)
 
 # Allows the engine to guess the animation.
 auto_animate_action = (
     'csmAutoAnimate',
     'Auto-Animate',
-    'If selected, the game engine will rotate this mesh about its origin instead of using keyframes. For better '
-    'results, prefer using keyframes',
+    'If selected, the game engine will rotate this mesh about its origin instead of using keyframes. For visually '
+    'nicer results on larger meshes, prefer using keyframes. Tiny switches are good auto-animate candidates',
     'OUTLINER_DATA_ARMATURE',
     1
 )

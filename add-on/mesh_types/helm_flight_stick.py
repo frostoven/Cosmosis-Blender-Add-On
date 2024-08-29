@@ -21,6 +21,18 @@ class HelmFlightStick(CosmosisMeshBase):
         items=get_animation_actions
     )
 
+    csmYawAnimation: bpy.props.EnumProperty(
+        name='Yaw Animation',
+        description='Select animation used to convey yaw',
+        items=get_animation_actions
+    )
+
+    csmRollAnimation: bpy.props.EnumProperty(
+        name='Roll Animation',
+        description='Select animation used to convey roll',
+        items=get_animation_actions
+    )
+
     def get_animation_types(self):
         obj = bpy.context.active_object
         if not obj or not obj.animation_data:
@@ -36,6 +48,8 @@ class HelmFlightStick(CosmosisMeshBase):
         # whereas invoke is for menu-based launches only (apparently).
         context.object['csmType'] = 'helmFlightStick'
         self.load_or_set_default(context, 'csmPitchAnimation', self.csmPitchAnimation)
+        self.load_or_set_default(context, 'csmYawAnimation', self.csmYawAnimation)
+        self.load_or_set_default(context, 'csmRollAnimation', self.csmRollAnimation)
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
 
@@ -51,6 +65,8 @@ class HelmFlightStick(CosmosisMeshBase):
 
         self.draw_required_items_heading()
         layout.prop(self, 'csmPitchAnimation')
+        layout.prop(self, 'csmYawAnimation')
+        layout.prop(self, 'csmRollAnimation')
 
         self.draw_optional_items_heading()
         layout.prop(self, 'csmDriver')
