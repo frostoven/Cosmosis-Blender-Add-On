@@ -15,6 +15,7 @@ class CosmosisParentMenu(bpy.types.Menu):
     """
     bl_idname = 'VIEW3D_MT_cosmosis_parent_menu'
     bl_label = 'Cosmosis Mesh Types'
+    bl_options = {'SEARCH_ON_KEY_PRESS'}
 
     def draw(self, context):
         layout = self.layout
@@ -26,7 +27,10 @@ class CosmosisParentMenu(bpy.types.Menu):
             snake_name = to_snake_case(selected_type)
 
             # Show the specific menu for the selected mesh type.
-            menu_object = layout.operator(f'object.csm_{snake_name}', icon='GREASEPENCIL')
+            menu_object = layout.operator(
+                f'object.csm_{snake_name}',
+                icon='OUTLINER_DATA_GP_LAYER'  # or: GREASEPENCIL for a thicker icon
+            )
 
             # This can happen if the plugin is out of date, or if a modder did something weird.
             if menu_object is None:
@@ -39,6 +43,12 @@ class CosmosisParentMenu(bpy.types.Menu):
             layout.operator('object.csm_clear_mesh_type', text='Clear Type Info', icon='PANEL_CLOSE')
         else:
             # Show all enable mesh code type menu items.
+            layout.label(
+                text='Type to search...',
+                icon='VIEWZOOM'
+            )
+            layout.separator()
+
             for menu_item in enabled_menu_items:
                 if menu_item == 'separator':
                     layout.separator()
