@@ -15,13 +15,6 @@ class HelmFlightStick(CosmosisMeshBase):
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'PIVOT_BOUNDBOX'
 
-    csmAutoAnimate: bpy.props.BoolProperty(
-        name='Auto-Animate',
-        description='If true, the game engine will rotate this mesh about its origin instead of using keyframes. '
-                    'For better results, leave this disabled and use keyframes',
-        default=False,
-    )
-
     csmPitchAnimation: bpy.props.EnumProperty(
         name='Pitch Animation',
         description='Select animation used to convey pitch',
@@ -42,7 +35,6 @@ class HelmFlightStick(CosmosisMeshBase):
         # Note: execute is called for both keypress launches and menu launches,
         # whereas invoke is for menu-based launches only (apparently).
         context.object['csmType'] = 'helmFlightStick'
-        self.load_or_set_default(context, 'csmAutoAnimate', self.csmAutoAnimate)
         self.load_or_set_default(context, 'csmPitchAnimation', self.csmPitchAnimation)
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
@@ -58,7 +50,6 @@ class HelmFlightStick(CosmosisMeshBase):
         layout.use_property_split = True
 
         self.draw_required_items_heading()
-        layout.prop(self, 'csmAutoAnimate')
         layout.prop(self, 'csmPitchAnimation')
 
         self.draw_optional_items_heading()
