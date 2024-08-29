@@ -10,8 +10,10 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
     bl_idname = 'object.csm_animated_cockpit_peripheral'
     bl_label = 'Animated Cockpit Peripheral'
     bl_description = (
-        'Used to animation in-game flight sticks.\n\n'
-        'Informs the game engine that this mesh\'s animations follow the ship\'s pitch/yaw/roll values'
+        'Used to animate in-game cockpit peripherals. This may include items such as yokes, throttles, and switches.\n\n'
+        'Keyframed actions will show up in the peripheral animation dropdowns. If you do not have any animations, your '
+        'choices are limited to "Not Set" and "Auto-Animate". Keyframed actions that are currently visible in the '
+        'viewport will have a dot next to them in the dropdown'
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'DRIVER'
@@ -34,6 +36,12 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
         items=get_animation_actions
     )
 
+    csmDriverAnimation: bpy.props.EnumProperty(
+        name='Driver-Triggered Animation',
+        description='Rotations triggered by a driver. Useful for items such as small switches',
+        items=get_animation_actions
+    )
+
     def get_animation_types(self):
         obj = bpy.context.active_object
         if not obj or not obj.animation_data:
@@ -51,6 +59,7 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
         self.load_or_set_default(context, 'csmPitchAnimation', self.csmPitchAnimation)
         self.load_or_set_default(context, 'csmYawAnimation', self.csmYawAnimation)
         self.load_or_set_default(context, 'csmRollAnimation', self.csmRollAnimation)
+        self.load_or_set_default(context, 'csmDriverAnimation', self.csmDriverAnimation)
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
 
@@ -68,6 +77,7 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
         layout.prop(self, 'csmPitchAnimation')
         layout.prop(self, 'csmYawAnimation')
         layout.prop(self, 'csmRollAnimation')
+        layout.prop(self, 'csmDriverAnimation')
 
         self.draw_optional_items_heading()
         layout.prop(self, 'csmDriver')
