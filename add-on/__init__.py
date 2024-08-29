@@ -54,8 +54,10 @@ def unregister():
     addon_keymaps.clear()
 
     # Unregister menu items.
-    for cls in reversed(enabled_menu_items):
-        bpy.utils.unregister_class(cls)
+    for menu_item in reversed(enabled_menu_items):
+        # We skip strings; they're used special commands in the parent menu.
+        if not isinstance(menu_item, str):
+            bpy.utils.unregister_class(menu_item)
 
 
 if __name__ == "__main__":
