@@ -82,6 +82,19 @@ class CosmosisMeshBase(bpy.types.Operator):
         else:
             context.object[key] = default
 
+    def apply_user_preset(self, context, presets):
+        preset = presets.get(self.csmPresetMenu, None)
+        if preset:
+            keys = preset.keys()
+            print('keys:')
+            print(keys)
+            for key in keys:
+                context.object[key] = preset.get(key, self.csmDriver)
+                setattr(self, key, context.object[key])
+        else:
+            print('no preset matched:')
+            print(preset)
+
     ### --- Common menu items --- ###
 
     csmGfxqLight: bpy.props.EnumProperty(
