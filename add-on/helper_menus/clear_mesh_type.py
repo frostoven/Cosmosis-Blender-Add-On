@@ -11,9 +11,21 @@ class ClearMeshType(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-        # Clear mesh code information from the selected object.
+        """
+        Clears mesh code information from the selected object.
+        """
+
         if context.object:
             if 'csmType' in context.object:
                 del context.object['csmType']
+
+        if 'csmAllCodes' in context.object:
+            all_codes = list(context.object['csmAllCodes'])
+            for key in all_codes:
+                if key in context.object:
+                    del context.object[key]
+            del context.object['csmAllCodes']
+        else:
+            print('[CosmosisDev] Warning: Attempting to clear object that doesn\'t have "csmAllCodes" defined.')
 
         return {'FINISHED'}

@@ -82,6 +82,11 @@ class CosmosisMeshBase(bpy.types.Operator):
         else:
             context.object[key] = default
 
+        # Used for housekeeping when clearing data.
+        if not 'csmAllCodes' in context.object:
+            context.object['csmAllCodes'] = {}
+        context.object['csmAllCodes'][key] = True
+
     def apply_user_preset(self, context, presets):
         preset = presets.get(self.csmPresetMenu, None)
         if preset:
