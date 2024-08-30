@@ -38,25 +38,25 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
     csmPitchAnimation: bpy.props.EnumProperty(
         name='Pitch Animation',
         description='Select animation used to convey pitch',
-        items=get_animation_actions
+        items=lambda self, context: get_animation_actions(True)
     )
 
     csmYawAnimation: bpy.props.EnumProperty(
         name='Yaw Animation',
         description='Select animation used to convey yaw',
-        items=get_animation_actions
+        items=lambda self, context: get_animation_actions(True)
     )
 
     csmRollAnimation: bpy.props.EnumProperty(
         name='Roll Animation',
         description='Select animation used to convey roll',
-        items=get_animation_actions
+        items=lambda self, context: get_animation_actions(True)
     )
 
     csmDriverAnimation: bpy.props.EnumProperty(
         name='Driver-Triggered Animation',
         description='Rotations triggered by a driver. Useful for items such as small switches',
-        items=get_animation_actions
+        items=lambda self, context: get_animation_actions(True)
     )
 
     def get_animation_types(self):

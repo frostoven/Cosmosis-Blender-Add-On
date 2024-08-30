@@ -17,7 +17,7 @@ auto_animate_action = (
 
 def action_uuid(action):
     """
-    If the user renamed an animation and we identified actions by name, we'd now have a stale name. Actions can have
+    If the user renamed an animation, and we identified actions by name, we'd now have a stale name. Actions can have
     custom properties like objects can, so we generate and attach a unique UUID to the action if it does not already
     have one.
     """
@@ -30,7 +30,7 @@ def action_uuid(action):
         return action['csmUuid']
 
 
-def get_animation_actions(self, context):
+def get_animation_actions(include_auto_animate=False):
     try:
         # Get the active object.
         active_obj = bpy.context.active_object
@@ -40,9 +40,12 @@ def get_animation_actions(self, context):
 
             selectable_actions = [
                 unset_action,
-                auto_animate_action,
             ]
-            item_id = 2
+            item_id = 1
+
+            if include_auto_animate:
+                selectable_actions.append(auto_animate_action)
+                item_id += 1
 
             active_action = ''
 
@@ -77,10 +80,15 @@ def get_animation_actions(self, context):
 
         else:
             # No animation data found for the active object.
-            return (
-                unset_action,
-                auto_animate_action,
-            )
+            if include_auto_animate:
+                return (
+                    unset_action,
+                    auto_animate_action,
+                )
+            else:
+                return (
+                    unset_action,
+                )
 
         return selectable_actions
     except AttributeError:
