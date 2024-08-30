@@ -1,6 +1,15 @@
 import bpy
 from .cosmosis_mesh_base import CosmosisMeshBase
 
+presets = {
+    'None': {},
+    'Primary Pilot Seat': {'csmStartingCamera': True, 'csmIsPilotCamera': True},
+    'Copilot Seat': {'csmStartingCamera': False, 'csmIsPilotCamera': True},
+    'Passenger Seat': {'csmStartingCamera': False, 'csmIsPilotCamera': False},
+}
+
+preset_items = [(name, name, '') for name in presets.keys()]
+
 
 class SeatCamera(CosmosisMeshBase):
     """
@@ -16,6 +25,12 @@ class SeatCamera(CosmosisMeshBase):
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'CON_CAMERASOLVER'
 
+    csmPresetMenu: bpy.props.EnumProperty(
+        name='Presets',
+        description="Example presets",
+        items=preset_items,
+    )
+
     csmStartingCamera: bpy.props.BoolProperty(
         name='Starting Camera',
         description='If enabled, this is the seat the player will sit in when the game starts',
@@ -29,8 +44,8 @@ class SeatCamera(CosmosisMeshBase):
     )
 
     def execute(self, context):
-        # Note: execute is called for both keypress launches and menu launches,
-        # whereas invoke is for menu-based launches only (apparently).
+        self.apply_user_preset(context, presets)
+
         context.object['csmType'] = 'seatCamera'
         self.load_or_set_default(context, 'csmStartingCamera', self.csmStartingCamera)
         self.load_or_set_default(context, 'csmIsPilotCamera', self.csmIsPilotCamera)
@@ -46,6 +61,7 @@ class SeatCamera(CosmosisMeshBase):
     def draw(self, context):
         layout = self.layout
         layout.use_property_split = True
+        layout.prop(self, 'csmPresetMenu')
 
         self.draw_required_items_heading()
         layout.prop(self, 'csmStartingCamera')
@@ -54,4 +70,3 @@ class SeatCamera(CosmosisMeshBase):
         self.draw_optional_items_heading()
         layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmDevHelper')
-        # TODO: Add differentiation between pilot and passenger seats.
