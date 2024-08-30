@@ -2,6 +2,17 @@ import bpy
 from ..utils.get_animation_actions import get_animation_actions
 from .cosmosis_mesh_base import CosmosisMeshBase
 
+presets = {
+    'None': {},
+    'Yoke': {'csmDriver': '', 'csmDriverAnimation': 'csmUndefined'},
+    'Throttle': {'csmDriver': '', 'csmDriverAnimation': 'csmUndefined'},
+    'Rudder': {'csmDriver': '', 'csmDriverAnimation': 'csmUndefined'},
+    'Cockpit Switch (General)': {'csmDriverAnimation': 'csmAutoAnimate'},
+    'Cockpit Switch (Flight Assist)': {'csmDriver': 'toggleFlightAssist', 'csmDriverAnimation': 'csmAutoAnimate'},
+}
+
+preset_items = [(name, name, '') for name in presets.keys()]
+
 
 class AnimatedCockpitPeripheral(CosmosisMeshBase):
     """
@@ -17,6 +28,12 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'DRIVER'
+
+    csmPresetMenu: bpy.props.EnumProperty(
+        name='Presets',
+        description="Example presets",
+        items=preset_items,
+    )
 
     csmPitchAnimation: bpy.props.EnumProperty(
         name='Pitch Animation',
@@ -49,10 +66,9 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
         return [f"Action: {action.name}" for action in bpy.data.actions if
                 action in obj.animation_data.nla_tracks[0].strips]
 
-    def update_animation_data(self, context):
-        self.report({'INFO'}, f"Selected Animation: {self.csmPitchAnimation}")
-
     def execute(self, context):
+        self.apply_user_preset(context, presets)
+
         # Note: execute is called for both keypress launches and menu launches,
         # whereas invoke is for menu-based launches only (apparently).
         context.object['csmType'] = 'animatedCockpitPeripheral'
@@ -72,6 +88,9 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
     def draw(self, context):
         layout = self.layout
         layout.use_property_split = True
+
+        # Preset selection
+        layout.prop(self, 'csmPresetMenu')
 
         self.draw_required_items_heading()
         layout.prop(self, 'csmPitchAnimation')
