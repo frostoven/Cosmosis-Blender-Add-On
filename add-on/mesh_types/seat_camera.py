@@ -17,8 +17,14 @@ class SeatCamera(CosmosisMeshBase):
     icon = 'CON_CAMERASOLVER'
 
     csmStartingCamera: bpy.props.BoolProperty(
-        name="Starting Camera",
-        description="If enabled, this is the seat the player will sit in when the game starts",
+        name='Starting Camera',
+        description='If enabled, this is the seat the player will sit in when the game starts',
+        default=False,
+    )
+
+    csmIsPilotCamera: bpy.props.BoolProperty(
+        name='Is Pilot Seat',
+        description='If enabled, this seat provides a pilot interface. Enable this for both pilot and copilot seats',
         default=False,
     )
 
@@ -27,6 +33,7 @@ class SeatCamera(CosmosisMeshBase):
         # whereas invoke is for menu-based launches only (apparently).
         context.object['csmType'] = 'seatCamera'
         self.load_or_set_default(context, 'csmStartingCamera', self.csmStartingCamera)
+        self.load_or_set_default(context, 'csmIsPilotCamera', self.csmIsPilotCamera)
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
 
@@ -40,8 +47,11 @@ class SeatCamera(CosmosisMeshBase):
         layout = self.layout
         layout.use_property_split = True
 
-        self.draw_optional_items_heading()
+        self.draw_required_items_heading()
         layout.prop(self, 'csmStartingCamera')
+        layout.prop(self, 'csmIsPilotCamera')
+
+        self.draw_optional_items_heading()
         layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmDevHelper')
         # TODO: Add differentiation between pilot and passenger seats.
