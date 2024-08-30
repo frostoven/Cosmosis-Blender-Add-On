@@ -95,6 +95,9 @@ class CosmosisMeshBase(bpy.types.Operator):
                 context.object[key] = preset.get(key, self.csmDriver)
                 setattr(self, key, context.object[key])
 
+            # Prevent the preset menu from blocking user customization.
+            setattr(self, 'csmPresetMenu', 'Presets')
+
     ### --- Common menu items --- ###
 
     csmGfxqLight: bpy.props.EnumProperty(

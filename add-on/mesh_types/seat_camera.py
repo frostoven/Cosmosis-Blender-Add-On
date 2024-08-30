@@ -2,7 +2,7 @@ import bpy
 from .cosmosis_mesh_base import CosmosisMeshBase
 
 presets = {
-    'None': {},
+    'Presets': {},
     'Primary Pilot Seat': {'csmStartingCamera': True, 'csmIsPilotCamera': True},
     'Copilot Seat': {'csmStartingCamera': False, 'csmIsPilotCamera': True},
     'Passenger Seat': {'csmStartingCamera': False, 'csmIsPilotCamera': False},

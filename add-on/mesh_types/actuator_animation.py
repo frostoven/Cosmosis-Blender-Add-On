@@ -3,7 +3,7 @@ from ..utils.get_animation_actions import get_animation_actions
 from .cosmosis_mesh_base import CosmosisMeshBase
 
 presets = {
-    'None': {},
+    'Presets': {},
     'Door': {'csmDriver': 'yourSwitchName'},
     'Landing Gear': {'csmDriver': 'deployLandingGear'},
 }

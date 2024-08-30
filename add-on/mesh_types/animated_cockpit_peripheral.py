@@ -3,7 +3,7 @@ from ..utils.get_animation_actions import get_animation_actions
 from .cosmosis_mesh_base import CosmosisMeshBase
 
 presets = {
-    'None': {},
+    'Presets': {},
     'Yoke': {'csmDriver': '', 'csmDriverAnimation': 'csmUndefined'},
     'Throttle': {'csmDriver': '', 'csmDriverAnimation': 'csmUndefined'},
     'Rudder': {'csmDriver': '', 'csmDriverAnimation': 'csmUndefined'},
