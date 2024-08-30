@@ -86,14 +86,9 @@ class CosmosisMeshBase(bpy.types.Operator):
         preset = presets.get(self.csmPresetMenu, None)
         if preset:
             keys = preset.keys()
-            print('keys:')
-            print(keys)
             for key in keys:
                 context.object[key] = preset.get(key, self.csmDriver)
                 setattr(self, key, context.object[key])
-        else:
-            print('no preset matched:')
-            print(preset)
 
     ### --- Common menu items --- ###
 

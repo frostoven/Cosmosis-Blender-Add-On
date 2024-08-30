@@ -4,6 +4,7 @@ from .mesh_types import (
     # Helm control and pilot items
     seat_camera,
     animated_cockpit_peripheral,
+    actuator_animation,
 )
 
 enabled_menu_items = [
@@ -13,5 +14,6 @@ enabled_menu_items = [
     spotlight.Spotlight,
     'separator',
     animated_cockpit_peripheral.AnimatedCockpitPeripheral,
+    actuator_animation.ActuatorAnimation,
     seat_camera.SeatCamera,
 ]

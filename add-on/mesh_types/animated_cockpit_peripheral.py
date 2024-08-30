@@ -17,6 +17,11 @@ preset_items = [(name, name, '') for name in presets.keys()]
 class AnimatedCockpitPeripheral(CosmosisMeshBase):
     """
     Used to animation in-game flight sticks.
+
+    Note: This is a special case of ActuatorAnimation; ActuatorAnimation defines animations from 0%-100%, whereas
+    AnimatedCockpitPeripheral is concerned with convenience items that have obvious constraints and are used often.
+    Within Cosmosis, AnimatedCockpitPeripheral handlers have preset values that cannot be easily expressed with
+    ActuatorAnimation.
     """
     bl_idname = 'object.csm_animated_cockpit_peripheral'
     bl_label = 'Animated Cockpit Peripheral'
@@ -27,7 +32,7 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
         'viewport will have a dot next to them in the dropdown'
     )
     bl_options = {'REGISTER', 'UNDO'}
-    icon = 'DRIVER'
+    icon = 'PIVOT_BOUNDBOX'
 
     csmPresetMenu: bpy.props.EnumProperty(
         name='Presets',
