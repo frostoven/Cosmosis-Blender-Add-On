@@ -23,11 +23,11 @@ class FakeLight(CosmosisMeshBase):
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = "CUBE"
+    mesh_code = 'fakeLight'
 
     def execute(self, context):
-        # Note: execute is called for both keypress launches and menu launches,
-        # whereas invoke is for menu-based launches only (apparently).
-        context.object['csmType'] = 'fakeLight'
+        self.create_structure_if_needed(context)
+
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
 
         # Prevents edits from being lost. This is a tad spaghetti though, need

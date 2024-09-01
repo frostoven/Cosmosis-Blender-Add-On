@@ -24,6 +24,7 @@ class SeatCamera(CosmosisMeshBase):
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'CON_CAMERASOLVER'
+    mesh_code = 'seatCamera'
 
     csmPresetMenu: bpy.props.EnumProperty(
         name='Presets',
@@ -44,9 +45,9 @@ class SeatCamera(CosmosisMeshBase):
     )
 
     def execute(self, context):
+        self.create_structure_if_needed(context)
         self.apply_user_preset(context, presets)
 
-        context.object['csmType'] = 'seatCamera'
         self.load_or_set_default(context, 'csmStartingCamera', self.csmStartingCamera)
         self.load_or_set_default(context, 'csmIsPilotCamera', self.csmIsPilotCamera)
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)

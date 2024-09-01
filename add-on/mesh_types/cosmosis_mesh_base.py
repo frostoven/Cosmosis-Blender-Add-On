@@ -12,6 +12,7 @@ class CosmosisMeshBase(bpy.types.Operator):
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'NONE'
+    mesh_code = 'csmUndefined'
 
     ### --- Attributes altered by derived classes --- ###
 
@@ -59,41 +60,41 @@ class CosmosisMeshBase(bpy.types.Operator):
 
     ### --- Common methods --- ###
 
+    def create_structure_if_needed(self, context):
+        """Call this each time your operator executes. It ensures your object has the needed user data structures."""
+
+        if 'csmMeshCodes' not in context.object:
+            context.object['csmMeshCodes'] = {}
+
+        if self.mesh_code not in context.object['csmMeshCodes']:
+            context.object['csmMeshCodes'][self.mesh_code] = {'csmType': self.mesh_code}
+
     def load_or_set_default(self, context, key, default):
         """
-        Determines if the specified field should be loaded from the mesh, or if
-        the field value should overwrite what's in the mesh, and then writes
-        the needed data. Used during boot to set previous values, used after
-        boot to save new values.
+        Please run self.create_structure_if_needed() for running this method.
 
-        Set self.init_complete to True after you've run this for all fields.
-        :param context:
-        :param key:
-        :param default:
-        :return:
+        This method determines if the specified field should be loaded from the mesh, or if the field value should
+        overwrite what's in the mesh, and then writes the needed data. Used during boot to set previous values, used
+        after boot to save new values.
+
+        Please set self.init_complete to True after you've run this for all fields, otherwise it'll re-init each time.
         """
+        target = context.object['csmMeshCodes'][self.mesh_code]
 
-        # Possible example if this was not written dynamically:
-        #  [if preexisting] self.csmDriver = context.object['csmDriver']
-        #  [if new]         context.object['csmDriver'] = self.csmDriver
-        #
-        if key in context.object and not self.init_complete:
-            setattr(self, key, context.object[key])
+        if key in target and not self.init_complete:
+            setattr(self, key, target[key])
         else:
-            context.object[key] = default
-
-        # Used for housekeeping when clearing data.
-        if not 'csmAllCodes' in context.object:
-            context.object['csmAllCodes'] = {}
-        context.object['csmAllCodes'][key] = True
+            target[key] = default
 
     def apply_user_preset(self, context, presets):
+        """Please run self.create_structure_if_needed() for running this method."""
+        target = context.object['csmMeshCodes'][self.mesh_code]
         preset = presets.get(self.csmPresetMenu, None)
         if preset:
             keys = preset.keys()
             for key in keys:
-                context.object[key] = preset.get(key, self.csmDriver)
-                setattr(self, key, context.object[key])
+                target[key] = preset.get(key, '')
+                setattr(self, key, target[key])
 
             # Prevent the preset menu from blocking user customization.
             setattr(self, 'csmPresetMenu', 'Presets')

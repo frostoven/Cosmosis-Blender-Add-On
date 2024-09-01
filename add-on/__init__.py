@@ -1,6 +1,6 @@
 import bpy
 from .enabled_menu_items import enabled_menu_items
-from .helper_menus import parent_menu, clear_mesh_type
+from .helper_menus import allow_parent_menu_persistence, parent_menu, clear_mesh_type
 
 bl_info = {
     "name": "CosmosisDev",
@@ -17,10 +17,13 @@ bl_info = {
 
 addon_keymaps = []
 
+allow_parent_menu_persistence.init()
+
 
 def register():
     # This menu shows all available mesh code types when the user presses Insert.
     bpy.utils.register_class(parent_menu.CosmosisParentMenu)
+    bpy.utils.register_class(allow_parent_menu_persistence.AllowParentMenuRedraw)
 
     # Register all enabled menu items.
     for menu_item in enabled_menu_items:

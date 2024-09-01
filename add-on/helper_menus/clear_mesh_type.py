@@ -7,25 +7,33 @@ class ClearMeshType(bpy.types.Operator):
     """
     bl_idname = 'object.csm_clear_mesh_type'
     bl_label = 'Clear Type Info'
-    bl_description = 'The "Clear Type Info" option is used to clear mesh code type info, and isn\'t itself a mesh code'
+    bl_description = 'Deletes the data associated with this mesh code from the selected object'
     bl_options = {'REGISTER', 'UNDO'}
+
+    deletion_target: bpy.props.StringProperty(
+        default=''
+    )
 
     def execute(self, context):
         """
         Clears mesh code information from the selected object.
         """
+        if self.deletion_target == '':
+            print('[CosmosisDev] Warning: deletion_target not correctly defined.')
+            return {'CANCELLED'}
 
-        if context.object:
-            if 'csmType' in context.object:
-                del context.object['csmType']
+        if not context.object:
+            print('[CosmosisDev] Warning: deletion failed: context.object is falsy.')
+            return {'CANCELLED'}
 
-        if 'csmAllCodes' in context.object:
-            all_codes = list(context.object['csmAllCodes'])
-            for key in all_codes:
-                if key in context.object:
-                    del context.object[key]
-            del context.object['csmAllCodes']
-        else:
-            print('[CosmosisDev] Warning: Attempting to clear object that doesn\'t have "csmAllCodes" defined.')
+        if 'csmMeshCodes' not in context.object:
+            print('[CosmosisDev] Warning: deletion failed: "csmMeshCodes" not in context.object.')
+            return {'CANCELLED'}
 
-        return {'FINISHED'}
+        if self.deletion_target not in context.object['csmMeshCodes']:
+            print(f'[CosmosisDev] Warning: deletion failed: "{self.deletion_target}" not in csmMeshCodes object.')
+            return {'CANCELLED'}
+
+        del context.object['csmMeshCodes'][self.deletion_target]
+
+        return {'CANCELLED'}
