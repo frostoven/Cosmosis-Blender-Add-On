@@ -33,6 +33,7 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'PIVOT_BOUNDBOX'
+    mesh_code = 'animatedCockpitPeripheral'
 
     csmPresetMenu: bpy.props.EnumProperty(
         name='Presets',
@@ -72,11 +73,9 @@ class AnimatedCockpitPeripheral(CosmosisMeshBase):
                 action in obj.animation_data.nla_tracks[0].strips]
 
     def execute(self, context):
+        self.create_structure_if_needed(context)
         self.apply_user_preset(context, presets)
 
-        # Note: execute is called for both keypress launches and menu launches,
-        # whereas invoke is for menu-based launches only (apparently).
-        context.object['csmType'] = 'animatedCockpitPeripheral'
         self.load_or_set_default(context, 'csmPitchAnimation', self.csmPitchAnimation)
         self.load_or_set_default(context, 'csmYawAnimation', self.csmYawAnimation)
         self.load_or_set_default(context, 'csmRollAnimation', self.csmRollAnimation)

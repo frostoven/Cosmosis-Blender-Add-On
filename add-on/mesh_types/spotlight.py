@@ -13,11 +13,11 @@ class Spotlight(CosmosisMeshBase):
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'LIGHT_SPOT'
+    mesh_code = 'spotlight'
 
     def execute(self, context):
-        # Note: execute is called for both keypress launches and menu launches,
-        # whereas invoke is for menu-based launches only (apparently).
-        context.object['csmType'] = 'spotlight'
+        self.create_structure_if_needed(context)
+
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmGfxqLight', self.csmGfxqLight)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)

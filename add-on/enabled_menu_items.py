@@ -8,13 +8,12 @@ from .mesh_types import (
 )
 
 enabled_menu_items = [
-    # Temporarily disabling some items as part of the mult-mesh-code migration.
-    # area_light.AreaLight,
+    area_light.AreaLight,
     fake_light.FakeLight,
-    # point_light.PointLight,
-    # spotlight.Spotlight,
-    # 'separator',
-    # animated_cockpit_peripheral.AnimatedCockpitPeripheral,
-    # actuator_animation.ActuatorAnimation,
+    point_light.PointLight,
+    spotlight.Spotlight,
+    'separator',
+    animated_cockpit_peripheral.AnimatedCockpitPeripheral,
+    actuator_animation.ActuatorAnimation,
     seat_camera.SeatCamera,
 ]

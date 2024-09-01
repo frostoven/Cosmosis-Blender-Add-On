@@ -22,6 +22,7 @@ class ActuatorAnimation(CosmosisMeshBase):
     )
     bl_options = {'REGISTER', 'UNDO'}
     icon = 'DRIVER'
+    mesh_code = 'actuatorAnimation'
 
     csmPresetMenu: bpy.props.EnumProperty(
         name='Presets',
@@ -46,11 +47,9 @@ class ActuatorAnimation(CosmosisMeshBase):
         self.report({'INFO'}, f"Selected Animation: {self.csmPitchAnimation}")
 
     def execute(self, context):
+        self.create_structure_if_needed(context)
         self.apply_user_preset(context, presets)
 
-        # Note: execute is called for both keypress launches and menu launches,
-        # whereas invoke is for menu-based launches only (apparently).
-        context.object['csmType'] = 'actuatorAnimation'
         self.load_or_set_default(context, 'csmDriverAnimation', self.csmDriverAnimation)
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
