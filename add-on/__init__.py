@@ -1,7 +1,7 @@
 import bpy
 from .enabled_menu_items import enabled_menu_items
 from .menu_entry_point import allow_parent_menu_persistence, parent_menu
-from .deletion_helpers import clear_mesh_type, confirm_dialog
+from .deletion_helpers import trigger_type_deletion, confirm_and_delete
 
 bl_info = {
     "name": "CosmosisDev",
@@ -33,8 +33,8 @@ def register():
             bpy.utils.register_class(menu_item)
 
     # This menu allows clearing type information.
-    bpy.utils.register_class(confirm_dialog.ConfirmDialogOperator)
-    bpy.utils.register_class(clear_mesh_type.ClearMeshType)
+    bpy.utils.register_class(confirm_and_delete.ConfirmAndDelete)
+    bpy.utils.register_class(trigger_type_deletion.TriggerTypeDeletion)
 
     # Append the parent menu to the object menu.
     bpy.types.VIEW3D_MT_object.append(parent_menu.menu_func)

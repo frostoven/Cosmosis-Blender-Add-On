@@ -1,11 +1,11 @@
 import bpy
 
 
-class ClearMeshType(bpy.types.Operator):
+class TriggerTypeDeletion(bpy.types.Operator):
     """
-    This isn't by itself a mesh code. This used to clear mesh code information.
+    Triggers the dialog window that deletes the specified mesh code info
     """
-    bl_idname = 'object.csm_clear_mesh_type'
+    bl_idname = 'object.csm_trigger_type_deletion'
     bl_label = 'Clear Type Info'
     bl_description = 'Deletes the data associated with this mesh code from the selected object'
     bl_options = {'REGISTER', 'UNDO'}
@@ -22,12 +22,11 @@ class ClearMeshType(bpy.types.Operator):
         )
 
     def execute(self, context):
-        """
-        Clears mesh code information from the selected object.
-        """
-        bpy.ops.wm.confirm_dialog(
+        # This was all initially one class, but unfortunately the invoke() function isn't called when the menu is
+        # launched via keybinding. The class has since been split in two so that we can more easily trigger invoke
+        # while still keeping things somewhat clean.
+        bpy.ops.wm.csm_confirm_and_delete(
             'INVOKE_DEFAULT',
-            message=f'Delete this object\'s {self.deletion_target} data?',
             deletion_target=self.deletion_target,
         )
 

@@ -79,7 +79,7 @@ class CosmosisParentMenu(bpy.types.Menu):
             col3 = row.column(align=True)
             col3.scale_x = 0.65
             col3.operator(
-                'object.csm_clear_mesh_type',
+                'object.csm_trigger_type_deletion',
                 text='Delete',
                 icon='TRASH'
             ).deletion_target = mesh_code
