@@ -1,6 +1,7 @@
 import bpy
 from .enabled_menu_items import enabled_menu_items
-from .helper_menus import allow_parent_menu_persistence, parent_menu, clear_mesh_type, confirm_dialog
+from .helper_menus import allow_parent_menu_persistence, parent_menu
+from .deletion_helpers import clear_mesh_type, confirm_dialog
 
 bl_info = {
     "name": "CosmosisDev",
