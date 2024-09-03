@@ -14,26 +14,21 @@ class ClearMeshType(bpy.types.Operator):
         default=''
     )
 
+    @staticmethod
+    def alert_deletion_error(message):
+        bpy.context.window_manager.popup_menu(
+            lambda self, context: None,
+            title=message, icon="ERROR"
+        )
+
     def execute(self, context):
         """
         Clears mesh code information from the selected object.
         """
-        if self.deletion_target == '':
-            print('[CosmosisDev] Warning: deletion_target not correctly defined.')
-            return {'CANCELLED'}
-
-        if not context.object:
-            print('[CosmosisDev] Warning: deletion failed: context.object is falsy.')
-            return {'CANCELLED'}
-
-        if 'csmMeshCodes' not in context.object:
-            print('[CosmosisDev] Warning: deletion failed: "csmMeshCodes" not in context.object.')
-            return {'CANCELLED'}
-
-        if self.deletion_target not in context.object['csmMeshCodes']:
-            print(f'[CosmosisDev] Warning: deletion failed: "{self.deletion_target}" not in csmMeshCodes object.')
-            return {'CANCELLED'}
-
-        del context.object['csmMeshCodes'][self.deletion_target]
+        bpy.ops.wm.confirm_dialog(
+            'INVOKE_DEFAULT',
+            message=f'Delete this object\'s {self.deletion_target} data?',
+            deletion_target=self.deletion_target,
+        )
 
         return {'CANCELLED'}

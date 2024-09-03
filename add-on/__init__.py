@@ -1,6 +1,6 @@
 import bpy
 from .enabled_menu_items import enabled_menu_items
-from .helper_menus import allow_parent_menu_persistence, parent_menu, clear_mesh_type
+from .helper_menus import allow_parent_menu_persistence, parent_menu, clear_mesh_type, confirm_dialog
 
 bl_info = {
     "name": "CosmosisDev",
@@ -32,6 +32,7 @@ def register():
             bpy.utils.register_class(menu_item)
 
     # This menu allows clearing type information.
+    bpy.utils.register_class(confirm_dialog.ConfirmDialogOperator)
     bpy.utils.register_class(clear_mesh_type.ClearMeshType)
 
     # Append the parent menu to the object menu.
