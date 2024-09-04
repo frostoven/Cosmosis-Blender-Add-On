@@ -5,6 +5,8 @@ from .mesh_types import (
     seat_camera,
     animated_cockpit_peripheral,
     actuator_animation,
+    # Other
+    generic,
 )
 
 enabled_menu_items = [
@@ -16,4 +18,6 @@ enabled_menu_items = [
     animated_cockpit_peripheral.AnimatedCockpitPeripheral,
     actuator_animation.ActuatorAnimation,
     seat_camera.SeatCamera,
+    'separator',
+    generic.Generic,
 ]
