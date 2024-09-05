@@ -15,9 +15,9 @@ from .mesh_types import (
 enabled_menu_items = [
     signal_switch.SignalSwitch,
     signal_receiver.SignalReceiver,
+    actuator_animation.ActuatorAnimation,
     'separator',
     animated_cockpit_peripheral.AnimatedCockpitPeripheral,
-    actuator_animation.ActuatorAnimation,
     seat_camera.SeatCamera,
     'separator',
     area_light.AreaLight,
