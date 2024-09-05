@@ -13,7 +13,7 @@ class SignalSwitch(CosmosisMeshBase):
         'animations'
     )
     bl_options = {'REGISTER', 'UNDO'}
-    icon = "MEMORY"
+    icon = 'MEMORY'
     mesh_code = 'signalSwitch'
 
     csmSignalTextOut: bpy.props.StringProperty(
@@ -33,14 +33,12 @@ class SignalSwitch(CosmosisMeshBase):
     )
 
     def execute(self, context):
-        self.create_structure_if_needed(context)
+        self.prepare_class(context)
 
-        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmSignalTextOut', self.csmSignalTextOut)
         self.load_or_set_default(context, 'csmSwitchType', self.csmSwitchType)
 
-        # Prevents edits from being lost. This is a tad spaghetti though, need
-        # to create a cleaner solution.
+        # Prevents edits from being lost.
         self.init_complete = True
 
         return {'FINISHED'}

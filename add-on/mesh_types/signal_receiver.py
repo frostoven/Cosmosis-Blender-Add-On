@@ -14,7 +14,7 @@ class SignalReceiver(CosmosisMeshBase):
         'Attach the actuator animation for opening the door, and the door will open when the switch is triggered'
     )
     bl_options = {'REGISTER', 'UNDO'}
-    icon = "SYSTEM"
+    icon = 'SYSTEM'
     mesh_code = 'signalReceiver'
 
     csmSignalTextIn: bpy.props.StringProperty(
@@ -23,13 +23,11 @@ class SignalReceiver(CosmosisMeshBase):
     )
 
     def execute(self, context):
-        self.create_structure_if_needed(context)
+        self.prepare_class(context)
 
-        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmSignalTextIn', self.csmDriver)
 
-        # Prevents edits from being lost. This is a tad spaghetti though, need
-        # to create a cleaner solution.
+        # Prevents edits from being lost.
         self.init_complete = True
 
         return {'FINISHED'}

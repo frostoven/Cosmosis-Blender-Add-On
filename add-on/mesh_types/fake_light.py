@@ -22,16 +22,13 @@ class FakeLight(CosmosisMeshBase):
             'if you target just one'
     )
     bl_options = {'REGISTER', 'UNDO'}
-    icon = "CUBE"
+    icon = 'CUBE'
     mesh_code = 'fakeLight'
 
     def execute(self, context):
-        self.create_structure_if_needed(context)
+        self.prepare_class(context)
 
-        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
-
-        # Prevents edits from being lost. This is a tad spaghetti though, need
-        # to create a cleaner solution.
+        # Prevents edits from being lost.
         self.init_complete = True
 
         return {'FINISHED'}

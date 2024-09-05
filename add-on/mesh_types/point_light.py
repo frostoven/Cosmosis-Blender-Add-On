@@ -16,14 +16,12 @@ class PointLight(CosmosisMeshBase):
     mesh_code = 'pointLight'
 
     def execute(self, context):
-        self.create_structure_if_needed(context)
+        self.prepare_class(context)
 
-        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmGfxqLight', self.csmGfxqLight)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
 
-        # Prevents edits from being lost. This is a tad spaghetti though, need
-        # to create a cleaner solution.
+        # Prevents edits from being lost.
         self.init_complete = True
 
         return {'FINISHED'}

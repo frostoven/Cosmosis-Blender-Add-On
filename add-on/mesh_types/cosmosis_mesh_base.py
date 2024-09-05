@@ -24,7 +24,7 @@ class CosmosisMeshBase(bpy.types.Operator):
     def alert_info(message):
         bpy.context.window_manager.popup_menu(
             CosmosisMeshBase.draw_modal,
-            title=message, icon="INFO"
+            title=message, icon='INFO'
         )
 
     @staticmethod
@@ -51,7 +51,7 @@ class CosmosisMeshBase(bpy.types.Operator):
         CosmosisMeshBase.alert_error(
             'The CosmosisMeshBase `execute` function should be overridden.'
         )
-        return {'FINISHED'}
+        return {'CANCELLED'}
 
     def draw(self, context):
         CosmosisMeshBase.alert_error(
@@ -59,6 +59,14 @@ class CosmosisMeshBase(bpy.types.Operator):
         )
 
     ### --- Common methods --- ###
+
+    def prepare_class(self, context, presets=None):
+        self.create_structure_if_needed(context)
+        if presets:
+            self.apply_user_preset(context, presets)
+
+        # Configure default fields.
+        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
 
     def create_structure_if_needed(self, context):
         """Call this each time your operator executes. It ensures your object has the needed user data structures."""

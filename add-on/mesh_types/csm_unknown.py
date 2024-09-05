@@ -20,4 +20,4 @@ class CSMUnknown(bpy.types.Operator):
 
     def draw(self, context):
         layout = self.layout
-        layout.prop(self, "csmType")
+        layout.prop(self, 'csmType')

@@ -26,7 +26,7 @@ class ActuatorAnimation(CosmosisMeshBase):
 
     csmPresetMenu: bpy.props.EnumProperty(
         name='Presets',
-        description="Example presets",
+        description='Example presets',
         items=preset_items,
     )
 
@@ -47,15 +47,12 @@ class ActuatorAnimation(CosmosisMeshBase):
         self.report({'INFO'}, f"Selected Animation: {self.csmPitchAnimation}")
 
     def execute(self, context):
-        self.create_structure_if_needed(context)
-        self.apply_user_preset(context, presets)
+        self.prepare_class(context, presets)
 
         self.load_or_set_default(context, 'csmDriverAnimation', self.csmDriverAnimation)
-        self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
 
-        # Prevents edits from being lost. This is a tad spaghetti though, need
-        # to create a cleaner solution.
+        # Prevents edits from being lost.
         self.init_complete = True
 
         return {'FINISHED'}
