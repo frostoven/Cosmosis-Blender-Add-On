@@ -7,12 +7,14 @@ from .mesh_types import (
     actuator_animation,
     # Signal-based communication
     signal_switch,
+    signal_receiver,
     # Other
     generic,
 )
 
 enabled_menu_items = [
     signal_switch.SignalSwitch,
+    signal_receiver.SignalReceiver,
     'separator',
     animated_cockpit_peripheral.AnimatedCockpitPeripheral,
     actuator_animation.ActuatorAnimation,
