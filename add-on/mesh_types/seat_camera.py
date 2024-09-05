@@ -1,4 +1,5 @@
 import bpy
+from ..utils.get_animation_actions import get_animation_actions
 from .cosmosis_mesh_base import CosmosisMeshBase
 
 presets = {
@@ -44,12 +45,33 @@ class SeatCamera(CosmosisMeshBase):
         default=False,
     )
 
+    csmAnimateToNext: bpy.props.EnumProperty(
+        name='Cam Anim Next',
+        description='Animation to use on this camera when moving to the next cockpit camera',
+        items=lambda self, context: get_animation_actions(),
+    )
+
+    csmAnimateToPrevious: bpy.props.EnumProperty(
+        name='Cam Anim Prev',
+        description='Animation to use on this camera when moving to the previous cockpit camera',
+        items=lambda self, context: get_animation_actions(),
+    )
+
+    csmAnimationLeaveSeat: bpy.props.EnumProperty(
+        name='Leave Seat Anim',
+        description='Animation to use on this camera when moving to the previous cockpit camera',
+        items=lambda self, context: get_animation_actions(),
+    )
+
     def execute(self, context):
         self.create_structure_if_needed(context)
         self.apply_user_preset(context, presets)
 
         self.load_or_set_default(context, 'csmStartingCamera', self.csmStartingCamera)
         self.load_or_set_default(context, 'csmIsPilotCamera', self.csmIsPilotCamera)
+        self.load_or_set_default(context, 'csmAnimateToNext', self.csmAnimateToNext)
+        self.load_or_set_default(context, 'csmAnimateToPrevious', self.csmAnimateToPrevious)
+        self.load_or_set_default(context, 'csmAnimationLeaveSeat', self.csmAnimationLeaveSeat)
         self.load_or_set_default(context, 'csmDriver', self.csmDriver)
         self.load_or_set_default(context, 'csmDevHelper', self.csmDevHelper)
 
@@ -69,5 +91,8 @@ class SeatCamera(CosmosisMeshBase):
         layout.prop(self, 'csmIsPilotCamera')
 
         self.draw_optional_items_heading()
+        layout.prop(self, 'csmAnimateToNext')
+        layout.prop(self, 'csmAnimateToPrevious')
+        layout.prop(self, 'csmAnimationLeaveSeat')
         layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmDevHelper')
