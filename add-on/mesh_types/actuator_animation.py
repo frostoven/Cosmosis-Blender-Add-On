@@ -32,7 +32,7 @@ class ActuatorAnimation(CosmosisMeshBase):
 
     csmDriverAnimation: bpy.props.EnumProperty(
         name='Driver-Triggered Animation',
-        description='Rotations triggered by a driver. Useful for items such as small switches',
+        description='Animations triggered by a driver. Useful for items such as small switches',
         items=lambda self, context: get_animation_actions()
     )
 
