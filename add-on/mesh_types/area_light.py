@@ -31,6 +31,6 @@ class AreaLight(CosmosisMeshBase):
         layout.use_property_split = True
 
         self.draw_optional_items_heading()
-        layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmGfxqLight')
         layout.prop(self, 'csmDevHelper')
+        self.draw_defaults(layout)

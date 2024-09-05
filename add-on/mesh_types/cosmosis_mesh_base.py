@@ -132,7 +132,7 @@ class CosmosisMeshBase(bpy.types.Operator):
         default='false',
     )
 
-    ### --- Common UI Items --- ###
+    ### --- Common UI Methods --- ###
 
     def draw_optional_items_heading(self):
         self.layout.separator()
@@ -141,3 +141,6 @@ class CosmosisMeshBase(bpy.types.Operator):
     def draw_required_items_heading(self):
         self.layout.separator()
         self.layout.label(text='Required properties', icon='SNAP_VERTEX')
+
+    def draw_defaults(self, layout):
+        layout.prop(self, 'csmDriver')

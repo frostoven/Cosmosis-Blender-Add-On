@@ -92,5 +92,5 @@ class SeatCamera(CosmosisMeshBase):
         layout.prop(self, 'csmAnimateToPrevious')
         layout.prop(self, 'csmAnimationLeaveSeat')
         layout.separator()
-        layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmDevHelper')
+        self.draw_defaults(layout)

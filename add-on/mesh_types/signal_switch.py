@@ -52,4 +52,4 @@ class SignalSwitch(CosmosisMeshBase):
         layout.prop(self, 'csmSwitchType')
 
         self.draw_optional_items_heading()
-        layout.prop(self, 'csmDriver')
+        self.draw_defaults(layout)

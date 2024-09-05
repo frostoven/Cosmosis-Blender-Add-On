@@ -52,4 +52,4 @@ class TemplateFile(CosmosisMeshBase):
         layout.use_property_split = True
 
         self.draw_required_items_heading()
-        layout.prop(self, 'csmDriver')
+        self.draw_defaults(layout)

@@ -25,7 +25,7 @@ class SignalReceiver(CosmosisMeshBase):
     def execute(self, context):
         self.prepare_class(context)
 
-        self.load_or_set_default(context, 'csmSignalTextIn', self.csmDriver)
+        self.load_or_set_default(context, 'csmSignalTextIn', self.csmSignalTextIn)
 
         # Prevents edits from being lost.
         self.init_complete = True
@@ -40,4 +40,4 @@ class SignalReceiver(CosmosisMeshBase):
         layout.prop(self, 'csmSignalTextIn')
 
         self.draw_optional_items_heading()
-        layout.prop(self, 'csmDriver')
+        self.draw_defaults(layout)

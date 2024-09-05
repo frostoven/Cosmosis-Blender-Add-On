@@ -68,5 +68,5 @@ class ActuatorAnimation(CosmosisMeshBase):
         layout.prop(self, 'csmDriverAnimation')
 
         self.draw_optional_items_heading()
-        layout.prop(self, 'csmDriver')
         layout.prop(self, 'csmDevHelper')
+        self.draw_defaults(layout)
