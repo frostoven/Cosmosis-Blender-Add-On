@@ -5,19 +5,23 @@ from .mesh_types import (
     seat_camera,
     animated_cockpit_peripheral,
     actuator_animation,
+    # Signal-based communication
+    signal_switch,
     # Other
     generic,
 )
 
 enabled_menu_items = [
-    area_light.AreaLight,
-    fake_light.FakeLight,
-    point_light.PointLight,
-    spotlight.Spotlight,
+    signal_switch.SignalSwitch,
     'separator',
     animated_cockpit_peripheral.AnimatedCockpitPeripheral,
     actuator_animation.ActuatorAnimation,
     seat_camera.SeatCamera,
+    'separator',
+    area_light.AreaLight,
+    fake_light.FakeLight,
+    point_light.PointLight,
+    spotlight.Spotlight,
     'separator',
     generic.Generic,
 ]
