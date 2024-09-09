@@ -2,6 +2,7 @@ import bpy
 from .enabled_menu_items import enabled_menu_items
 from .menu_entry_point import allow_parent_menu_persistence, parent_menu
 from .deletion_helpers import trigger_type_deletion, confirm_and_delete
+from .mesh_types.helpers import signal_receiver_helpers
 
 bl_info = {
     "name": "CosmosisDev",
@@ -25,6 +26,14 @@ def register():
     # This menu shows all available mesh code types when the user presses Insert.
     bpy.utils.register_class(parent_menu.CosmosisParentMenu)
     bpy.utils.register_class(allow_parent_menu_persistence.AllowParentMenuRedraw)
+
+    # Signal receiver helpers.
+    bpy.utils.register_class(signal_receiver_helpers.SignalStringItem)
+    bpy.utils.register_class(signal_receiver_helpers.AddSignalStringOperator)
+    bpy.utils.register_class(signal_receiver_helpers.RemoveSignalStringOperator)
+    bpy.types.Object.csmSignalTexts = bpy.props.CollectionProperty(
+        type=signal_receiver_helpers.SignalStringItem,
+    )
 
     # Register all enabled menu items.
     for menu_item in enabled_menu_items:

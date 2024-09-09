@@ -1,5 +1,6 @@
 import bpy
 from .cosmosis_mesh_base import CosmosisMeshBase
+from .helpers import signal_receiver_helpers
 
 
 class SignalReceiver(CosmosisMeshBase):
@@ -17,15 +18,14 @@ class SignalReceiver(CosmosisMeshBase):
     icon = 'SYSTEM'
     mesh_code = 'signalReceiver'
 
-    csmSignalTextIn: bpy.props.StringProperty(
-        name='Signal Text (In)',
-        description='The command signal text that this object responds to. Example: "cockpit door switch left"'
+    # Define the collection property for multiple signal texts
+    csmSignalTexts: bpy.props.CollectionProperty(
+        type=signal_receiver_helpers.SignalStringItem
     )
 
     def execute(self, context):
         self.prepare_class(context)
-
-        self.load_or_set_default(context, 'csmSignalTextIn', self.csmSignalTextIn)
+        self.load_or_set_default_array(context, 'signalText', self.csmSignalTexts)
 
         # Prevents edits from being lost.
         self.init_complete = True
@@ -37,7 +37,26 @@ class SignalReceiver(CosmosisMeshBase):
         layout.use_property_split = True
 
         self.draw_required_items_heading()
-        layout.prop(self, 'csmSignalTextIn')
+
+        hide_add_button = False
+
+        # Draw each signal text in the collection.
+        for i, signal_item in enumerate(self.csmSignalTexts):
+            text = 'Signal Text (In)' if i == 0 else f'ST (In) Port {i + 1}'
+            row = layout.row()
+            row.prop(signal_item, 'item_text', text=text)
+            row.operator('object.csm_remove_signal_string', text='', icon='X').index = i
+
+            if i >= 31:
+                hide_add_button = True
+
+        # Add button for adding a new signal listener.
+        if not hide_add_button:
+            layout.separator()
+            layout.operator(
+                'object.csm_add_signal_string',
+                text='Add Additional Listener',
+            )
 
         self.draw_optional_items_heading()
         self.draw_defaults(layout)

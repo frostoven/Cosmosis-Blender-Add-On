@@ -94,6 +94,30 @@ class CosmosisMeshBase(bpy.types.Operator):
         else:
             target[key] = default
 
+    def load_or_set_default_array(self, context, key, collection_property):
+        target = context.object['csmMeshCodes'][self.mesh_code]
+        count = 0
+
+        if key in target and not self.init_complete:
+            # Remove stale entries.
+            collection_property.clear()
+            # Store mesh values in this operator's UI.
+            for text in target[key]:
+                new_item = collection_property.add()
+                new_item.item_text = text
+                count += 1
+        else:
+            # Store UI values inside the mesh.
+            result = []
+            for prop in collection_property:
+                result.append(prop.item_text)
+                count += 1
+            target[key] = result
+
+        # Ensure we always have at least one item in the list by default.
+        if count == 0:
+            collection_property.add()
+
     def apply_user_preset(self, context, presets):
         """Please run self.create_structure_if_needed() for running this method."""
         target = context.object['csmMeshCodes'][self.mesh_code]
@@ -144,3 +168,4 @@ class CosmosisMeshBase(bpy.types.Operator):
 
     def draw_defaults(self, layout):
         layout.prop(self, 'csmDriver')
+        # TODO: Add name. Note in the description that it doesn't need to be unique.
