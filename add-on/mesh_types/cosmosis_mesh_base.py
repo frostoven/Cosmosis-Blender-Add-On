@@ -1,4 +1,5 @@
 import bpy
+import uuid
 
 
 class CosmosisMeshBase(bpy.types.Operator):
@@ -59,6 +60,29 @@ class CosmosisMeshBase(bpy.types.Operator):
         )
 
     ### --- Common methods --- ###
+
+    def get_uuid(self, context, create_if_needed=True):
+        """
+        Get this object's UUID. Generates a new UUID if the object does not already have one.
+        """
+
+        # Ensure that scene cache is ready. We do this here instead of on plugin register to prevent polluting scenes
+        # and .blend files not specifically made for Cosmosis.
+        if 'csmUuidCache' not in bpy.context.scene:
+            bpy.context.scene['csmUuidCache'] = {}
+
+        if 'csmUuid' in context.object:
+            csm_uuid = context.object['csmUuid']
+        elif create_if_needed:
+            csm_uuid = str(uuid.uuid4())
+            context.object['csmUuid'] = csm_uuid
+        else:
+            return None
+
+        # Always update cache with latest known value. Note that stale cache is detected elsewhere.
+        bpy.context.scene['csmUuidCache'][csm_uuid] = context.object.name
+
+        return csm_uuid
 
     def prepare_class(self, context, presets=None):
         self.create_structure_if_needed(context)
