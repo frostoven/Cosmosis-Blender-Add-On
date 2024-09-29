@@ -1,7 +1,7 @@
 import bpy
 import re
 
-from ..enabled_menu_items import enabled_menu_items
+from ..enabled_menu_items import header_items, enabled_menu_items
 
 
 # Convert camelCase to snake_case.
@@ -20,11 +20,12 @@ class CosmosisParentMenu(bpy.types.Menu):
     def draw(self, context):
         layout = self.layout
 
-        # Check if a specific mesh type is selected.
+        # Contains all this object's mesh codes.
         mesh_codes = context.object.get('csmMeshCodes', None)
+
+        # Check if specific mesh types is present. Draw them contextually as needed.
         if mesh_codes:
             self.draw_edit_existing(context, mesh_codes)
-
         else:
             self.draw_create_new(context)
 
@@ -38,7 +39,20 @@ class CosmosisParentMenu(bpy.types.Menu):
             icon='VIEWZOOM'
         )
         layout.separator()
+
+        # Always draw the header menu items.
+        self.draw_header_items(context)
+        layout.separator()
+
         for menu_item in enabled_menu_items:
+            if menu_item == 'separator':
+                layout.separator()
+            else:
+                layout.operator(menu_item.bl_idname, icon=menu_item.icon)
+
+    def draw_header_items(self, context):
+        layout = self.layout
+        for menu_item in header_items:
             if menu_item == 'separator':
                 layout.separator()
             else:

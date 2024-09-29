@@ -9,9 +9,17 @@ from .mesh_types import (
     signal_switch,
     signal_receiver,
     # Other
+    mesh_lod_management,
     generic,
 )
 
+# Menu items shown regardless of context.
+header_items = [
+    mesh_lod_management.MeshLodManagement,
+    'separator',
+]
+
+# Menu items shown contextually.
 enabled_menu_items = [
     signal_switch.SignalSwitch,
     signal_receiver.SignalReceiver,
