@@ -6,5 +6,8 @@ __pycache__
 add-on/CosmosisDev
 add-on/CosmosisDev.zip
 
+# Fake BPY support (see https://github.com/nutti/fake-bpy-module)
+generated modules
+
 # Mad ramblings
 todo
